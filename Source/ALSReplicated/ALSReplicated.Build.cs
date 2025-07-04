@@ -31,7 +31,7 @@ public class ALSReplicated : ModuleRules
 			);
 			
 		
-		PrivateDependencyModuleNames.AddRange(
+                PrivateDependencyModuleNames.AddRange(
                         new string[]
                         {
                                 "Core",
@@ -40,6 +40,9 @@ public class ALSReplicated : ModuleRules
                                 "Slate",
                                 "SlateCore",
                                 "UMG",
+                                "AIModule",
+                                "GameplayTasks",
+                                "NavigationSystem",
                                 // ... add private dependencies that you statically link with here ...
                         }
                         );
