@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ALSCharacterMovementComponent.h"
 #include "LockOnComponent.h"
+#include "CombatComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -41,6 +42,9 @@ public:
 
         UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
         ULockOnComponent* LockOnComponent;
+
+        UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
+        UCombatComponent* CombatComponent;
 
 };
 
