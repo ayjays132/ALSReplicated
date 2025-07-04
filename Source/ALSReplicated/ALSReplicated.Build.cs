@@ -32,16 +32,17 @@ public class ALSReplicated : ModuleRules
 			
 		
 		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core",
-				"CoreUObject",
-				"Engine",
-				"Slate",
-				"SlateCore",
-				// ... add private dependencies that you statically link with here ...	
-			}
-			);
+                        new string[]
+                        {
+                                "Core",
+                                "CoreUObject",
+                                "Engine",
+                                "Slate",
+                                "SlateCore",
+                                "UMG",
+                                // ... add private dependencies that you statically link with here ...
+                        }
+                        );
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(

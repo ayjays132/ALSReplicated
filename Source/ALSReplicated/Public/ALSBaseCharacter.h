@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "ALSCharacterMovementComponent.h"
+#include "LockOnComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -35,8 +36,11 @@ public:
 	UPROPERTY(BlueprintReadWrite, Replicated, Category="ALS || Rotation")
 	FRotator ControlRotation = GetControlRotation();
 
-	UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
-	UALSCharacterMovementComponent* ALSCharacterMovement;
+        UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
+        UALSCharacterMovementComponent* ALSCharacterMovement;
+
+        UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
+        ULockOnComponent* LockOnComponent;
 
 };
 

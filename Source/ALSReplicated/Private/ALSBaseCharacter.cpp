@@ -2,13 +2,15 @@
 
 
 #include "ALSBaseCharacter.h"
+#include "LockOnComponent.h"
 
 // Sets default values
 AALSBaseCharacter::AALSBaseCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass<UALSCharacterMovementComponent>(CharacterMovementComponentName))
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+        // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+        PrimaryActorTick.bCanEverTick = true;
 
+        LockOnComponent = CreateDefaultSubobject<ULockOnComponent>(TEXT("LockOnComponent"));
 }
 
 // Called when the game starts or when spawned
