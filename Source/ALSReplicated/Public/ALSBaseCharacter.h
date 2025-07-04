@@ -8,6 +8,7 @@
 #include "LockOnComponent.h"
 #include "CombatComponent.h"
 #include "EnvironmentInteractionComponent.h"
+#include "HitReactionComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Animation/AnimInstance.h"
@@ -49,6 +50,9 @@ public:
 
         UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
         UEnvironmentInteractionComponent* InteractionComponent;
+
+        UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
+        UHitReactionComponent* HitReactionComponent;
 
 };
 

@@ -5,6 +5,7 @@
 #include "LockOnComponent.h"
 #include "CombatComponent.h"
 #include "EnvironmentInteractionComponent.h"
+#include "HitReactionComponent.h"
 
 // Sets default values
 AALSBaseCharacter::AALSBaseCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass<UALSCharacterMovementComponent>(CharacterMovementComponentName))
@@ -15,6 +16,7 @@ AALSBaseCharacter::AALSBaseCharacter(const FObjectInitializer& ObjectInitializer
         LockOnComponent = CreateDefaultSubobject<ULockOnComponent>(TEXT("LockOnComponent"));
         CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
         InteractionComponent = CreateDefaultSubobject<UEnvironmentInteractionComponent>(TEXT("EnvironmentInteractionComponent"));
+        HitReactionComponent = CreateDefaultSubobject<UHitReactionComponent>(TEXT("HitReactionComponent"));
 }
 
 // Called when the game starts or when spawned
