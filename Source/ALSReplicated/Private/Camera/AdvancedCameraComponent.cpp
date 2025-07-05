@@ -54,13 +54,34 @@ void UAdvancedCameraComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
         }
     }
 
-    if (bUsePostProcess)
+    UpdatePostProcess();
+}
+
+void UAdvancedCameraComponent::UpdatePostProcess()
+{
+    if (!bUsePostProcess)
     {
-        if (APlayerController* PC = OwnerPawn ? Cast<APlayerController>(OwnerPawn->GetController()) : nullptr)
+        bPostProcessApplied = false;
+        return;
+    }
+
+    bool bSettingsChanged = !PostProcessSettings.Equals(CachedPostProcessSettings);
+    bool bWeightChanged = !FMath::IsNearlyEqual(PostProcessBlendWeight, CachedBlendWeight);
+
+    if (!bPostProcessApplied || bSettingsChanged || bWeightChanged)
+    {
+        APawn* OwnerPawn = Cast<APawn>(GetOwner());
+        if (OwnerPawn)
         {
-            if (APlayerCameraManager* PCM = PC->PlayerCameraManager)
+            if (APlayerController* PC = Cast<APlayerController>(OwnerPawn->GetController()))
             {
-                PCM->AddCachedPPBlend(PostProcessSettings, PostProcessBlendWeight);
+                if (APlayerCameraManager* PCM = PC->PlayerCameraManager)
+                {
+                    PCM->AddCachedPPBlend(PostProcessSettings, PostProcessBlendWeight);
+                    CachedPostProcessSettings = PostProcessSettings;
+                    CachedBlendWeight = PostProcessBlendWeight;
+                    bPostProcessApplied = true;
+                }
             }
         }
     }
