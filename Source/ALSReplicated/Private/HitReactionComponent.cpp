@@ -223,6 +223,29 @@ void UHitReactionComponent::ServerSetRagdollActive_Implementation(bool bActive)
     SetRagdollActive(bActive);
 }
 
+void UHitReactionComponent::Revive()
+{
+    if (GetOwnerRole() < ROLE_Authority)
+    {
+        ServerRevive();
+        return;
+    }
+
+    bIsKnockedOut = false;
+    SetRagdollActive(false);
+    MulticastOnRevive();
+}
+
+void UHitReactionComponent::ServerRevive_Implementation()
+{
+    Revive();
+}
+
+void UHitReactionComponent::MulticastOnRevive_Implementation()
+{
+    OnRevive();
+}
+
 void UHitReactionComponent::AddStamina(float Amount)
 {
     Stamina = FMath::Clamp(Stamina + Amount, 0.f, MaxStamina);
