@@ -57,6 +57,7 @@ void AALSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
        if (PlayerInputComponent)
        {
                PlayerInputComponent->BindAction(TEXT("LockOnAction"), IE_Pressed, this, &AALSBaseCharacter::ToggleLockOn);
+               PlayerInputComponent->BindAction(TEXT("UseAction"), IE_Pressed, this, &AALSBaseCharacter::UseAction);
        }
 }
 
@@ -81,6 +82,14 @@ void AALSBaseCharacter::UnequipWeapon()
        if (CombatComponent)
        {
                CombatComponent->UnequipWeapon();
+       }
+}
+
+void AALSBaseCharacter::UseAction()
+{
+       if (InteractionComponent)
+       {
+               InteractionComponent->UseAction();
        }
 }
 

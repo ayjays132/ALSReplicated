@@ -42,6 +42,9 @@ public:
        UFUNCTION(BlueprintCallable, Category="Combat")
        void UnequipWeapon();
 
+       UFUNCTION(BlueprintCallable, Category="Interaction")
+       void UseAction();
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category="ALS || Rotation")
