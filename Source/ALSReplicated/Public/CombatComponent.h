@@ -79,7 +79,10 @@ protected:
     UPROPERTY(Replicated)
     float Stamina = 100.f;
 
-    UPROPERTY(EditDefaultsOnly, Category="Combat")
+    UFUNCTION()
+    void OnRep_MaxStamina();
+
+    UPROPERTY(ReplicatedUsing=OnRep_MaxStamina, EditDefaultsOnly, Category="Combat")
     float MaxStamina = 100.f;
 
     FTimerHandle ComboTimerHandle;
