@@ -104,10 +104,10 @@ A description of what actually happens.
 
 ## Automation Tests
 
-A set of automation tests validates component replication. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`. Alternatively, run them from the command line:
+A set of automation tests validates component replication. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`, `ALSReplicated.StaminaReplication`, `ALSReplicated.LockOn.TargetReplication` and `ALSReplicated.EnvironmentInteractionReplication`. Alternatively, run them from the command line:
 
 ```
-UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.ComponentReplication -unattended
+UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.* -unattended
 ```
 
 ## Interactive Actor Setup
