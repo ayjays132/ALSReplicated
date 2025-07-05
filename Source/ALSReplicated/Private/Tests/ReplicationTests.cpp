@@ -22,6 +22,12 @@ bool FCombatComponentReplicationTest::RunTest(const FString& Parameters)
         TestTrue(TEXT("Stamina should replicate"), bReplicated);
     }
 
+    {
+        FProperty* Prop = CombatClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UCombatComponent, MaxStamina));
+        const bool bReplicated = Prop && Prop->HasAnyPropertyFlags(CPF_Net);
+        TestTrue(TEXT("MaxStamina should replicate"), bReplicated);
+    }
+
     return true;
 }
 

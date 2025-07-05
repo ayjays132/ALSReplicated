@@ -32,6 +32,7 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(UCombatComponent, ComboIndex);
     DOREPLIFETIME(UCombatComponent, AttackCooldown);
     DOREPLIFETIME(UCombatComponent, Stamina);
+    DOREPLIFETIME(UCombatComponent, MaxStamina);
 }
 
 void UCombatComponent::LightAttack()
@@ -126,6 +127,11 @@ void UCombatComponent::OnRep_AttackState()
     OnAttackStateChanged(bIsAttacking);
 }
 
+void UCombatComponent::OnRep_MaxStamina()
+{
+    Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
+}
+
 void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
 {
     if (!Weapon)
@@ -212,5 +218,6 @@ void UCombatComponent::SetMaxStamina(float NewMax)
 {
     MaxStamina = NewMax;
     Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
+    OnRep_MaxStamina();
 }
 
