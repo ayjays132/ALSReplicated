@@ -91,6 +91,11 @@ void UEnvironmentInteractionComponent::ServerBeginInteraction_Implementation(con
     BeginInteraction(Action, Duration);
 }
 
+bool UEnvironmentInteractionComponent::ServerBeginInteraction_Validate(const FString& Action, float Duration)
+{
+    return GetOwner() && GetOwner()->HasAuthority();
+}
+
 void UEnvironmentInteractionComponent::PushObject()
 {
     FHitResult Hit;
@@ -194,6 +199,11 @@ void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Tar
 
     HandleInteraction(Target, Action);
     MulticastInteract(Target, Action);
+}
+
+bool UEnvironmentInteractionComponent::ServerInteract_Validate(AActor* Target, const FString& Action)
+{
+    return GetOwner() && GetOwner()->HasAuthority() && Target != nullptr;
 }
 
 void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const FString& Action)

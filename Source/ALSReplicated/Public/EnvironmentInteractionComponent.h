@@ -44,10 +44,10 @@ public:
     void UseAction();
 
 protected:
-    UFUNCTION(Server, Reliable)
+    UFUNCTION(Server, Reliable, WithValidation)
     void ServerInteract(AActor* Target, const FString& Action);
 
-    UFUNCTION(Server, Reliable)
+    UFUNCTION(Server, Reliable, WithValidation)
     void ServerBeginInteraction(const FString& Action, float Duration);
 
     UFUNCTION(NetMulticast, Reliable)
