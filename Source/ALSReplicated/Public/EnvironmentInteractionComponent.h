@@ -6,6 +6,8 @@
 #include "GameplayTagContainer.h"
 #include "GameplayTagAssetInterface.h"
 #include "ALSCharacterMovementComponent.h"
+#include "Components/SplineComponent.h"
+#include "CableComponent.h"
 #include "EnvironmentInteractionComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -74,5 +76,15 @@ protected:
 
     UPROPERTY()
     UALSCharacterMovementComponent* CachedMovement = nullptr;
+
+    UPROPERTY()
+    USplineComponent* ActiveZipline = nullptr;
+
+    FTimerHandle ZiplineTimerHandle;
+    float ZiplineProgress = 0.f;
+    float ZiplineSpeed = 600.f;
+
+    void UpdateZiplineMovement();
+    void StopZipline();
 };
 
