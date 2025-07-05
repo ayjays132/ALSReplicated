@@ -27,15 +27,19 @@ public:
     UFUNCTION(BlueprintCallable, Category="Camera")
     void ExitFocusMode();
 
+    /** Called after the camera shoulder is changed. bRight is the new side. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnShoulderSwitched(bool bRight);
 
+    /** Fired whenever DesiredArmLength is updated. Use to drive zoom effects. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnZoomChanged(float NewLength);
 
+    /** Triggered when focus mode begins on Target. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnFocusModeStarted(AActor* Target);
 
+    /** Called when focus mode finishes. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnFocusModeEnded();
 
