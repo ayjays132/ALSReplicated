@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Engine/Scene.h"
 #include "LockOnComponent.h"
 #include "AdvancedCameraComponent.generated.h"
 
@@ -56,5 +57,13 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PostProcess", meta=(EditCondition="bUsePostProcess"))
     float PostProcessBlendWeight = 1.f;
+
+    /** Update the cached post process blend when settings change */
+    UFUNCTION(BlueprintCallable, Category="PostProcess")
+    void UpdatePostProcess();
+
+    bool bPostProcessApplied = false;
+    FPostProcessSettings CachedPostProcessSettings;
+    float CachedBlendWeight = 0.f;
 };
 

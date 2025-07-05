@@ -65,7 +65,21 @@ void UCinematicCameraComponent::TickComponent(float DeltaTime, ELevelTick TickTy
         SetWorldRotation(FMath::RInterpTo(GetComponentRotation(), DesiredRot, DeltaTime, LagSpeed));
     }
 
-    if (bUsePostProcess)
+    UpdatePostProcess();
+}
+
+void UCinematicCameraComponent::UpdatePostProcess()
+{
+    if (!bUsePostProcess)
+    {
+        bPostProcessApplied = false;
+        return;
+    }
+
+    bool bSettingsChanged = !PostProcessSettings.Equals(CachedPostProcessSettings);
+    bool bWeightChanged = !FMath::IsNearlyEqual(PostProcessBlendWeight, CachedBlendWeight);
+
+    if (!bPostProcessApplied || bSettingsChanged || bWeightChanged)
     {
         if (AActor* OwnerActor = GetOwner())
         {
@@ -74,6 +88,9 @@ void UCinematicCameraComponent::TickComponent(float DeltaTime, ELevelTick TickTy
                 if (APlayerCameraManager* PCM = PC->PlayerCameraManager)
                 {
                     PCM->AddCachedPPBlend(PostProcessSettings, PostProcessBlendWeight);
+                    CachedPostProcessSettings = PostProcessSettings;
+                    CachedBlendWeight = PostProcessBlendWeight;
+                    bPostProcessApplied = true;
                 }
             }
         }
