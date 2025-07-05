@@ -125,6 +125,18 @@ protected:
     UFUNCTION(Server, Reliable)
     void ServerSetRagdollActive(bool bActive);
 
+    UFUNCTION(BlueprintCallable, Category="Hit")
+    void Revive();
+
+    UFUNCTION(BlueprintImplementableEvent, Category="Hit")
+    void OnRevive();
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastOnRevive();
+
+    UFUNCTION(Server, Reliable)
+    void ServerRevive();
+
     FTimerHandle SlowMoTimerHandle;
 };
 
