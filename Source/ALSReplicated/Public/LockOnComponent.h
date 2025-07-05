@@ -27,9 +27,11 @@ public:
         UFUNCTION(BlueprintCallable, Category="LockOn")
         APawn* GetCurrentTarget() const { return CurrentTarget; }
 
+        /** Display a reticle when locking onto Target. */
         UFUNCTION(BlueprintImplementableEvent, Category="LockOn")
         void ShowReticle(APawn* Target);
 
+        /** Hide the reticle when lock-on ends. */
         UFUNCTION(BlueprintImplementableEvent, Category="LockOn")
         void HideReticle();
 

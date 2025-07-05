@@ -44,11 +44,7 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category="Combat")
     void OnHitDetected(const FHitResult& Hit);
 
-    /**
-     * Called whenever the attack state changes.
-     * Implement in Blueprint to play VFX, sounds or UI feedback
-     * when an attack starts (bAttacking = true) or ends.
-     */
+    /** Notifies when attacking begins or ends. bAttacking is the new state. */
     UFUNCTION(BlueprintImplementableEvent, Category="Combat")
     void OnAttackStateChanged(bool bAttacking);
 

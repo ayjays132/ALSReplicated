@@ -128,6 +128,7 @@ protected:
     UFUNCTION(BlueprintCallable, Category="Hit")
     void Revive();
 
+    /** Called after the character has been revived on all clients. */
     UFUNCTION(BlueprintImplementableEvent, Category="Hit")
     void OnRevive();
 

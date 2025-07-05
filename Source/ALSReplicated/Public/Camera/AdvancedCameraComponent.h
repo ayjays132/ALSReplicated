@@ -21,9 +21,11 @@ public:
     UFUNCTION(BlueprintCallable, Category="Camera")
     void SetZoomLevel(float Length);
 
+    /** Called after toggling shoulders. bRight indicates the new shoulder. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnShoulderSwitched(bool bRight);
 
+    /** Fired when DesiredArmLength is changed to NewLength. */
     UFUNCTION(BlueprintImplementableEvent, Category="Camera")
     void OnZoomChanged(float NewLength);
 
