@@ -65,6 +65,11 @@ void UCombatComponent::ServerStartAttack_Implementation(bool bHeavy)
     DoAttack(bHeavy);
 }
 
+bool UCombatComponent::ServerStartAttack_Validate(bool bHeavy)
+{
+    return GetOwner() && GetOwner()->HasAuthority();
+}
+
 void UCombatComponent::DoAttack(bool bHeavy)
 {
     bIsAttacking = true;
@@ -162,9 +167,19 @@ void UCombatComponent::ServerEquipWeapon_Implementation(AActor* Weapon, FName So
     EquipWeapon(Weapon, SocketName);
 }
 
+bool UCombatComponent::ServerEquipWeapon_Validate(AActor* Weapon, FName SocketName)
+{
+    return GetOwner() && GetOwner()->HasAuthority() && Weapon != nullptr;
+}
+
 void UCombatComponent::ServerUnequipWeapon_Implementation()
 {
     UnequipWeapon();
+}
+
+bool UCombatComponent::ServerUnequipWeapon_Validate()
+{
+    return GetOwner() && GetOwner()->HasAuthority();
 }
 
 void UCombatComponent::SpawnHitbox()

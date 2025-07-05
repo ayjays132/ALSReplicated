@@ -51,13 +51,13 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    UFUNCTION(Server, Reliable)
+    UFUNCTION(Server, Reliable, WithValidation)
     void ServerStartAttack(bool bHeavy);
 
-    UFUNCTION(Server, Reliable)
+    UFUNCTION(Server, Reliable, WithValidation)
     void ServerEquipWeapon(AActor* Weapon, FName SocketName);
 
-    UFUNCTION(Server, Reliable)
+    UFUNCTION(Server, Reliable, WithValidation)
     void ServerUnequipWeapon();
 
     void DoAttack(bool bHeavy);
