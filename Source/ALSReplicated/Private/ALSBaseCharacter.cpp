@@ -68,6 +68,22 @@ void AALSBaseCharacter::ToggleLockOn()
        }
 }
 
+void AALSBaseCharacter::EquipWeapon(AActor* Weapon, FName SocketName)
+{
+       if (CombatComponent)
+       {
+               CombatComponent->EquipWeapon(Weapon, SocketName);
+       }
+}
+
+void AALSBaseCharacter::UnequipWeapon()
+{
+       if (CombatComponent)
+       {
+               CombatComponent->UnequipWeapon();
+       }
+}
+
 void AALSBaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
