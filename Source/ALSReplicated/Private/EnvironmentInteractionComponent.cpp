@@ -3,6 +3,8 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "GameplayTagAssetInterface.h"
+#include "Components/SplineComponent.h"
+#include "CableComponent.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -222,11 +224,38 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
     }
     else if (Action == TEXT("GrabLedge"))
     {
-        // Placeholder: actual ledge grab logic should move the character
+        APawn* OwnerPawn = Cast<APawn>(GetOwner());
+        if (OwnerPawn && CachedMovement)
+        {
+            FVector TargetLocation = Target->GetActorLocation() + Target->GetActorForwardVector() * 50.f + FVector(0.f, 0.f, 100.f);
+            CachedMovement->SetMovementMode(MOVE_Flying);
+            OwnerPawn->SetActorLocation(TargetLocation);
+            CachedMovement->SetMovementMode(MOVE_Walking);
+        }
     }
     else if (Action == TEXT("UseZipline"))
     {
-        // Placeholder: actual zipline logic should handle movement
+        APawn* OwnerPawn = Cast<APawn>(GetOwner());
+        if (OwnerPawn && CachedMovement)
+        {
+            USplineComponent* Spline = Target->FindComponentByClass<USplineComponent>();
+            if (!Spline)
+            {
+                if (UCableComponent* Cable = Target->FindComponentByClass<UCableComponent>())
+                {
+                    Spline = Cable->GetAttachEndToComponent() ? Cable->GetAttachEndToComponent()->FindComponentByClass<USplineComponent>() : nullptr;
+                }
+            }
+
+            if (Spline)
+            {
+                ActiveZipline = Spline;
+                ZiplineProgress = 0.f;
+                CachedMovement->SetMovementMode(MOVE_Flying);
+                OwnerPawn->AttachToComponent(Spline, FAttachmentTransformRules::KeepWorldTransform);
+                GetWorld()->GetTimerManager().SetTimer(ZiplineTimerHandle, this, &UEnvironmentInteractionComponent::UpdateZiplineMovement, 0.02f, true);
+            }
+        }
     }
 }
 
@@ -241,5 +270,50 @@ void UEnvironmentInteractionComponent::MulticastInteract_Implementation(AActor* 
 void UEnvironmentInteractionComponent::OnRep_Interaction()
 {
     HandleInteraction(InteractedActor, LastAction);
+}
+
+void UEnvironmentInteractionComponent::UpdateZiplineMovement()
+{
+    if (!ActiveZipline)
+    {
+        StopZipline();
+        return;
+    }
+
+    APawn* OwnerPawn = Cast<APawn>(GetOwner());
+    if (!OwnerPawn)
+    {
+        StopZipline();
+        return;
+    }
+
+    ZiplineProgress += ZiplineSpeed * 0.02f;
+    float SplineLength = ActiveZipline->GetSplineLength();
+    FVector NewLocation = ActiveZipline->GetLocationAtDistanceAlongSpline(ZiplineProgress, ESplineCoordinateSpace::World);
+    OwnerPawn->SetActorLocation(NewLocation);
+
+    if (ZiplineProgress >= SplineLength)
+    {
+        StopZipline();
+    }
+}
+
+void UEnvironmentInteractionComponent::StopZipline()
+{
+    GetWorld()->GetTimerManager().ClearTimer(ZiplineTimerHandle);
+
+    APawn* OwnerPawn = Cast<APawn>(GetOwner());
+    if (OwnerPawn)
+    {
+        OwnerPawn->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+    }
+
+    if (CachedMovement)
+    {
+        CachedMovement->SetMovementMode(MOVE_Walking);
+    }
+
+    ActiveZipline = nullptr;
+    ZiplineProgress = 0.f;
 }
 

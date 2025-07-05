@@ -32,6 +32,7 @@ public class ALSReplicated : ModuleRules
                                "AIModule",
                                "GameplayTasks",
                                "GameplayTags",
+                               "CableComponent",
                                // ... add other public dependencies that you statically link with here ...
                        }
                        );
@@ -51,6 +52,7 @@ public class ALSReplicated : ModuleRules
                                 "GameplayTags",
                                 "NavigationSystem",
                                 "Niagara",
+                                "CableComponent",
                                 // ... add private dependencies that you statically link with here ...
                         }
                         );
