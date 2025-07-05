@@ -128,6 +128,12 @@ void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
         return;
     }
 
+    if (GetOwnerRole() < ROLE_Authority)
+    {
+        ServerEquipWeapon(Weapon, SocketName);
+        return;
+    }
+
     if (ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner()))
     {
         Weapon->AttachToComponent(OwnerCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SocketName);
@@ -138,11 +144,27 @@ void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
 
 void UCombatComponent::UnequipWeapon()
 {
+    if (GetOwnerRole() < ROLE_Authority)
+    {
+        ServerUnequipWeapon();
+        return;
+    }
+
     if (EquippedWeapon)
     {
         EquippedWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
         EquippedWeapon = nullptr;
     }
+}
+
+void UCombatComponent::ServerEquipWeapon_Implementation(AActor* Weapon, FName SocketName)
+{
+    EquipWeapon(Weapon, SocketName);
+}
+
+void UCombatComponent::ServerUnequipWeapon_Implementation()
+{
+    UnequipWeapon();
 }
 
 void UCombatComponent::SpawnHitbox()

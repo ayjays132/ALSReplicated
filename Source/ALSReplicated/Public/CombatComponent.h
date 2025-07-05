@@ -54,6 +54,12 @@ protected:
     UFUNCTION(Server, Reliable)
     void ServerStartAttack(bool bHeavy);
 
+    UFUNCTION(Server, Reliable)
+    void ServerEquipWeapon(AActor* Weapon, FName SocketName);
+
+    UFUNCTION(Server, Reliable)
+    void ServerUnequipWeapon();
+
     void DoAttack(bool bHeavy);
     void FinishAttack();
     void ResetCombo();
