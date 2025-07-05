@@ -77,6 +77,7 @@ A description of what actually happens.
   +ActionMappings=(ActionName="OpenOverlayMenu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Q)
   +ActionMappings=(ActionName="OpenOverlayMenu",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=Gamepad_LeftShoulder)
   +ActionMappings=(ActionName="UseAction",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=E)
+  +ActionMappings=(ActionName="LockOnAction",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=MiddleMouseButton)
   +AxisMappings=(AxisName="MoveForward/Backwards",Scale=1.000000,Key=W)
   +AxisMappings=(AxisName="MoveRight/Left",Scale=1.000000,Key=D)
   +AxisMappings=(AxisName="LookUp/Down",Scale=-1.000000,Key=MouseY)
