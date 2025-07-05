@@ -18,6 +18,7 @@ void UHitReactionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(UHitReactionComponent, bIsKnockedOut);
     DOREPLIFETIME(UHitReactionComponent, Stamina);
+    DOREPLIFETIME(UHitReactionComponent, bIsRagdoll);
 }
 
 void UHitReactionComponent::ReceiveHit(FVector HitLocation, FVector HitDirection, bool bCriticalHit, bool bBlocked, bool bKnockout)
@@ -97,6 +98,11 @@ void UHitReactionComponent::PlayHit(FVector HitLocation, FVector HitDirection, b
         UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FX, HitLocation);
     }
 
+    if (ImpactDecal)
+    {
+        UGameplayStatics::SpawnDecalAtLocation(GetWorld(), ImpactDecal, DecalSize, HitLocation, HitDirection.Rotation(), DecalLifeSpan);
+    }
+
     if (APlayerController* PC = Cast<APlayerController>(OwnerChar->GetController()))
     {
         if (bCriticalHit && CriticalCameraShake)
@@ -126,7 +132,7 @@ void UHitReactionComponent::PlayHit(FVector HitLocation, FVector HitDirection, b
     if (bKnockout && !bIsKnockedOut)
     {
         bIsKnockedOut = true;
-        StartRagdoll();
+        SetRagdollActive(true);
     }
 }
 
@@ -145,7 +151,19 @@ void UHitReactionComponent::OnRep_KnockedOut()
 {
     if (bIsKnockedOut)
     {
+        SetRagdollActive(true);
+    }
+}
+
+void UHitReactionComponent::OnRep_Ragdoll()
+{
+    if (bIsRagdoll)
+    {
         StartRagdoll();
+    }
+    else
+    {
+        StopRagdoll();
     }
 }
 
@@ -164,6 +182,45 @@ void UHitReactionComponent::StartRagdoll()
         Mesh->SetSimulatePhysics(true);
         Mesh->bBlendPhysics = true;
     }
+
+    if (!bIsRagdoll)
+    {
+        bIsRagdoll = true;
+    }
+}
+
+void UHitReactionComponent::StopRagdoll()
+{
+    ACharacter* OwnerChar = Cast<ACharacter>(GetOwner());
+    if (!OwnerChar)
+    {
+        return;
+    }
+
+    if (USkeletalMeshComponent* Mesh = OwnerChar->GetMesh())
+    {
+        Mesh->bBlendPhysics = false;
+        Mesh->SetSimulatePhysics(false);
+        Mesh->SetAllBodiesSimulatePhysics(false);
+        Mesh->SetCollisionProfileName(TEXT("CharacterMesh"));
+    }
+}
+
+void UHitReactionComponent::SetRagdollActive(bool bActive)
+{
+    if (GetOwnerRole() < ROLE_Authority)
+    {
+        ServerSetRagdollActive(bActive);
+        return;
+    }
+
+    bIsRagdoll = bActive;
+    OnRep_Ragdoll();
+}
+
+void UHitReactionComponent::ServerSetRagdollActive_Implementation(bool bActive)
+{
+    SetRagdollActive(bActive);
 }
 
 void UHitReactionComponent::AddStamina(float Amount)

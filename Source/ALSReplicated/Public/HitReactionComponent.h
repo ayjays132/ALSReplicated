@@ -4,6 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "NiagaraSystem.h"
 #include "Camera/CameraShakeBase.h"
+#include "Materials/MaterialInterface.h"
 #include "HitReactionComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -50,6 +51,7 @@ protected:
     void OnRep_KnockedOut();
 
     void StartRagdoll();
+    void StopRagdoll();
 
     UPROPERTY(ReplicatedUsing=OnRep_KnockedOut)
     bool bIsKnockedOut = false;
@@ -101,6 +103,27 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category="FX")
     float CriticalSlowMoTime = 0.5f;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    UMaterialInterface* ImpactDecal;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    FVector DecalSize = FVector(10.f, 10.f, 10.f);
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    float DecalLifeSpan = 5.f;
+
+    UPROPERTY(ReplicatedUsing=OnRep_Ragdoll)
+    bool bIsRagdoll = false;
+
+    UFUNCTION()
+    void OnRep_Ragdoll();
+
+    UFUNCTION(BlueprintCallable, Category="Hit")
+    void SetRagdollActive(bool bActive);
+
+    UFUNCTION(Server, Reliable)
+    void ServerSetRagdollActive(bool bActive);
 
     FTimerHandle SlowMoTimerHandle;
 };
