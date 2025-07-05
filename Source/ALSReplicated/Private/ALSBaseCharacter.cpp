@@ -60,6 +60,11 @@ void AALSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
        {
                PlayerInputComponent->BindAction(TEXT("LockOnAction"), IE_Pressed, this, &AALSBaseCharacter::ToggleLockOn);
                PlayerInputComponent->BindAction(TEXT("UseAction"), IE_Pressed, this, &AALSBaseCharacter::UseAction);
+               if (CombatComponent)
+               {
+                       PlayerInputComponent->BindAction(TEXT("LightAttack"), IE_Pressed, CombatComponent, &UCombatComponent::LightAttack);
+                       PlayerInputComponent->BindAction(TEXT("HeavyAttack"), IE_Pressed, CombatComponent, &UCombatComponent::HeavyAttack);
+               }
        }
 }
 
