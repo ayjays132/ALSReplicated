@@ -47,8 +47,8 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(BlueprintReadWrite, Replicated, Category="ALS || Rotation")
-	FRotator ControlRotation = GetControlRotation();
+       UPROPERTY(BlueprintReadWrite, Replicated, Category="ALS || Rotation")
+       FRotator ControlRotation = FRotator::ZeroRotator;
 
         UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
         UALSCharacterMovementComponent* ALSCharacterMovement;
