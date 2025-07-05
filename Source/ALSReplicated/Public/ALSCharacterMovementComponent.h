@@ -21,8 +21,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Movement Component")
 	void SetMaxWalkSpeed(float Max_WalkSpeed);
 
-	UFUNCTION(BlueprintCallable, Category="Movement Component")
-	void SetMaxWalkSpeedCrounched(float Max_WalkSpeedCrounched);
+        UFUNCTION(BlueprintCallable, Category="Movement Component")
+        void SetMaxWalkSpeedCrouched(float Max_WalkSpeedCrouched);
 
 	UFUNCTION(BlueprintCallable, Category="Movement Component")
 	void SetMaxAcceleration(float Max_Acceleration);
@@ -33,15 +33,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Movement Component")
 	void SetGroundFriction(float Ground_Friction);
 
-	UFUNCTION(BlueprintCallable, Category="Movement Component")
-	void SetBrakingFricktionFactor(float Braking_FricktionFactor);
+        UFUNCTION(BlueprintCallable, Category="Movement Component")
+        void SetBrakingFrictionFactor(float Braking_FrictionFactor);
 	
 private:
 	UPROPERTY(Replicated)
 	float NewMaxWalkSpeed = MaxWalkSpeed;
 	
 	UPROPERTY(Replicated)
-	float NewMaxWalkSpeedCrounched = MaxWalkSpeedCrouched;
+        float NewMaxWalkSpeedCrouched = MaxWalkSpeedCrouched;
 
 	UPROPERTY(Replicated)
 	float NewMaxAcceleration = MaxAcceleration;
@@ -53,13 +53,13 @@ private:
     float NewGroundFriction = GroundFriction;
 
 	UPROPERTY(Replicated)
-	float NewBrakingFricktionFactor = BrakingFrictionFactor;
+        float NewBrakingFrictionFactor = BrakingFrictionFactor;
 
 	UFUNCTION(Server, Reliable)
 	void Server_MaxWalkSpeed(float Max_WalkSpeed);
 
 	UFUNCTION(Server, Reliable)
-	void Server_MaxWalkSpeedCrounched(float Max_WalkSpeedCrounched);
+        void Server_MaxWalkSpeedCrouched(float Max_WalkSpeedCrouched);
 
 	UFUNCTION(Server, Reliable)
 	void Server_MaxAcceleration(float Max_Acceleration);
@@ -71,7 +71,7 @@ private:
 	void Server_GroundFriction(float Ground_Friction);
 
 	UFUNCTION(Server, Reliable)
-	void Server_BrakingFricktionFactor(float Braking_FricktionFactor);
+        void Server_BrakingFrictionFactor(float Braking_FrictionFactor);
 	
 };
 
