@@ -1,8 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "UObject/NetGUID.h"
+
 #include "LockOnComponent.generated.h"
 
 class UUserWidget;
@@ -16,25 +19,42 @@ public:
         ULockOnComponent();
 
         virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+        virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
         UFUNCTION(BlueprintCallable, Category="LockOn")
         void ToggleLockOn();
+
+        UFUNCTION(BlueprintCallable, Category="LockOn")
+        APawn* GetCurrentTarget() const { return CurrentTarget; }
+
+        UFUNCTION(BlueprintImplementableEvent, Category="LockOn")
+        void ShowReticle(APawn* Target);
+
+        UFUNCTION(BlueprintImplementableEvent, Category="LockOn")
+        void HideReticle();
 
 protected:
         UFUNCTION(Server, Reliable)
         void ServerToggleLockOn();
 
-        void DoToggleLockOn();
-        void PerformLineTrace();
+       void DoToggleLockOn();
+       APawn* FindNearestTarget() const;
+       bool HasLineOfSight(APawn* Target) const;
 
-        UPROPERTY(Replicated)
-        bool bIsLockedOn = false;
+       UFUNCTION()
+       void OnRep_LockedTarget();
 
-        UPROPERTY(Replicated)
-        AActor* LockedActor = nullptr;
+       UPROPERTY(ReplicatedUsing=OnRep_LockedTarget)
+       FNetworkGUID LockedTargetId;
+
+       UPROPERTY(Transient)
+       APawn* CurrentTarget = nullptr;
+
+       UPROPERTY(EditDefaultsOnly, Category="LockOn")
+       float TraceRange = 2000.0f;
 
 public:
-        UPROPERTY(EditDefaultsOnly, Category="LockOn")
-        TSubclassOf<UUserWidget> TargetWidgetClass;
+       UPROPERTY(EditDefaultsOnly, Category="LockOn")
+       TSubclassOf<UUserWidget> TargetWidgetClass;
 };
 

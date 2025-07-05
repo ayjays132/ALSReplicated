@@ -13,7 +13,7 @@ AALSBaseCharacter::AALSBaseCharacter(const FObjectInitializer& ObjectInitializer
         // Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
         PrimaryActorTick.bCanEverTick = true;
 
-        LockOnComponent = CreateDefaultSubobject<ULockOnComponent>(TEXT("LockOnComponent"));
+       LockOn = CreateDefaultSubobject<ULockOnComponent>(TEXT("LockOnComponent"));
         CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
         InteractionComponent = CreateDefaultSubobject<UEnvironmentInteractionComponent>(TEXT("EnvironmentInteractionComponent"));
         HitReactionComponent = CreateDefaultSubobject<UHitReactionComponent>(TEXT("HitReactionComponent"));
@@ -52,7 +52,20 @@ void AALSBaseCharacter::Tick(float DeltaTime)
 // Called to bind functionality to input
 void AALSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+       Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+       if (PlayerInputComponent)
+       {
+               PlayerInputComponent->BindAction(TEXT("LockOnAction"), IE_Pressed, this, &AALSBaseCharacter::ToggleLockOn);
+       }
+}
+
+void AALSBaseCharacter::ToggleLockOn()
+{
+       if (LockOn)
+       {
+               LockOn->ToggleLockOn();
+       }
 }
 
 void AALSBaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

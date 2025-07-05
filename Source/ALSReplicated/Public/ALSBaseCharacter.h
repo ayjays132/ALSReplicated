@@ -32,7 +32,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+       virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+       void ToggleLockOn();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
@@ -42,8 +44,8 @@ public:
         UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
         UALSCharacterMovementComponent* ALSCharacterMovement;
 
-        UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
-        ULockOnComponent* LockOnComponent;
+       UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
+       ULockOnComponent* LockOn;
 
         UPROPERTY(BlueprintReadWrite, Category="ALS || Component")
         UCombatComponent* CombatComponent;
