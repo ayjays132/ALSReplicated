@@ -191,6 +191,7 @@ void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Tar
     LastAction = Action;
 
     HandleInteraction(Target, Action);
+    MulticastInteract(Target, Action);
 }
 
 void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const FString& Action)
@@ -199,6 +200,9 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
     {
         return;
     }
+
+    Target->SetReplicates(true);
+    Target->SetReplicateMovement(true);
 
     if (Action == TEXT("Push"))
     {
@@ -223,6 +227,14 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
     else if (Action == TEXT("UseZipline"))
     {
         // Placeholder: actual zipline logic should handle movement
+    }
+}
+
+void UEnvironmentInteractionComponent::MulticastInteract_Implementation(AActor* Target, const FString& Action)
+{
+    if (GetOwnerRole() == ROLE_SimulatedProxy)
+    {
+        HandleInteraction(Target, Action);
     }
 }
 

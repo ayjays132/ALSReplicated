@@ -48,6 +48,9 @@ protected:
     UFUNCTION(Server, Reliable)
     void ServerBeginInteraction(const FString& Action, float Duration);
 
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastInteract(AActor* Target, const FString& Action);
+
     UFUNCTION()
     void OnRep_Interaction();
 
