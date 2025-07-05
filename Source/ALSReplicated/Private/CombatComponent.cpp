@@ -118,7 +118,7 @@ void UCombatComponent::ResetCombo()
 
 void UCombatComponent::OnRep_AttackState()
 {
-    // This function can be extended to react to attack state changes
+    OnAttackStateChanged(bIsAttacking);
 }
 
 void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
