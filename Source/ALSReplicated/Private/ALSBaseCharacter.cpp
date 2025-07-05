@@ -22,7 +22,9 @@ AALSBaseCharacter::AALSBaseCharacter(const FObjectInitializer& ObjectInitializer
 // Called when the game starts or when spawned
 void AALSBaseCharacter::BeginPlay()
 {
-	Super::BeginPlay();
+        Super::BeginPlay();
+
+       ControlRotation = GetControlRotation();
 
 	ALSCharacterMovement = Cast<UALSCharacterMovementComponent>(GetCharacterMovement());
 
