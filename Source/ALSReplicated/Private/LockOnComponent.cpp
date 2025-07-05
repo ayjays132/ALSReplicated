@@ -9,7 +9,8 @@
 
 ULockOnComponent::ULockOnComponent()
 {
-    PrimaryComponentTick.bCanEverTick = true;
+    PrimaryComponentTick.bCanEverTick = false;
+    SetComponentTickEnabled(false);
     SetIsReplicatedByDefault(true);
 }
 
@@ -18,6 +19,7 @@ void ULockOnComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
     DOREPLIFETIME(ULockOnComponent, LockedTargetId);
+    DOREPLIFETIME(ULockOnComponent, bTickActive);
 }
 
 void ULockOnComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -50,6 +52,8 @@ void ULockOnComponent::DoToggleLockOn()
 {
     if (CurrentTarget)
     {
+        bTickActive = false;
+        SetComponentTickEnabled(false);
         CurrentTarget = nullptr;
         LockedTargetId = FNetworkGUID();
         HideReticle();
@@ -59,6 +63,8 @@ void ULockOnComponent::DoToggleLockOn()
     APawn* NewTarget = FindNearestTarget();
     if (NewTarget)
     {
+        bTickActive = true;
+        SetComponentTickEnabled(true);
         CurrentTarget = NewTarget;
 
         if (UNetDriver* Driver = GetWorld()->GetNetDriver())
@@ -156,5 +162,12 @@ void ULockOnComponent::OnRep_LockedTarget()
     {
         HideReticle();
     }
+
+    SetComponentTickEnabled(bTickActive);
+}
+
+void ULockOnComponent::OnRep_TickActive()
+{
+    SetComponentTickEnabled(bTickActive);
 }
 

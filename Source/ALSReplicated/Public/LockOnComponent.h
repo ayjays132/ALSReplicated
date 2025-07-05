@@ -44,11 +44,17 @@ protected:
        UFUNCTION()
        void OnRep_LockedTarget();
 
+       UFUNCTION()
+       void OnRep_TickActive();
+
        UPROPERTY(ReplicatedUsing=OnRep_LockedTarget)
        FNetworkGUID LockedTargetId;
 
        UPROPERTY(Transient)
        APawn* CurrentTarget = nullptr;
+
+       UPROPERTY(ReplicatedUsing=OnRep_TickActive)
+       bool bTickActive = false;
 
        UPROPERTY(EditDefaultsOnly, Category="LockOn")
        float TraceRange = 2000.0f;
