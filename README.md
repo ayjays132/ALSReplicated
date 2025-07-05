@@ -101,4 +101,12 @@ A description of what actually happens.
 
 `UCombatComponent` exposes the `OnAttackStateChanged` event which is triggered whenever an attack begins or ends. Implement this in your blueprint to play effects or update the UI when `bAttacking` is `true` or `false`.
 
-@
+
+## Automation Tests
+
+A set of automation tests validates component replication. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`. Alternatively, run them from the command line:
+
+```
+UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.ComponentReplication -unattended
+```
+
