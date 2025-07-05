@@ -97,4 +97,8 @@ A description of what actually happens.
   +DefaultChannelResponses=(Channel=ECC_GameTraceChannel2,DefaultResponse=ECR_Block,bTraceType=True,bStaticObject=False,Name="Climbable")
   ```
 
+## Blueprint Events
+
+`UCombatComponent` exposes the `OnAttackStateChanged` event which is triggered whenever an attack begins or ends. Implement this in your blueprint to play effects or update the UI when `bAttacking` is `true` or `false`.
+
 @
