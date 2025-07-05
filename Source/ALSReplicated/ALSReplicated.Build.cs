@@ -8,18 +8,20 @@ public class ALSReplicated : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
-		PublicIncludePaths.AddRange(
-			new string[] {
-				// ... add public include paths required here ...
-			}
-			);
+                PublicIncludePaths.AddRange(
+                        new string[] {
+                                System.IO.Path.Combine(ModuleDirectory, "Public"),
+                                System.IO.Path.Combine(ModuleDirectory, "Public/Camera")
+                        }
+                        );
 				
 		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				// ... add other private include paths required here ...
-			}
-			);
+                PrivateIncludePaths.AddRange(
+                        new string[] {
+                                System.IO.Path.Combine(ModuleDirectory, "Private"),
+                                System.IO.Path.Combine(ModuleDirectory, "Private/Camera")
+                        }
+                        );
 			
 		
                PublicDependencyModuleNames.AddRange(
