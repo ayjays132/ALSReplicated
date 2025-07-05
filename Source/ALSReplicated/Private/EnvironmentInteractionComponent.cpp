@@ -5,6 +5,7 @@
 #include "GameplayTagAssetInterface.h"
 #include "Components/SplineComponent.h"
 #include "CableComponent.h"
+#include "Components/PrimitiveComponent.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -214,15 +215,35 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
     }
 
     Target->SetReplicates(true);
-    Target->SetReplicateMovement(true);
+    if (!Target->GetReplicateMovement())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Interactive actor %s missing bReplicateMovement. Enabling replication."), *Target->GetName());
+        Target->SetReplicateMovement(true);
+    }
+
+    UPrimitiveComponent* RootPrim = Cast<UPrimitiveComponent>(Target->GetRootComponent());
 
     if (Action == TEXT("Push"))
     {
-        Target->AddActorWorldOffset(Target->GetActorForwardVector() * 50.f);
+        if (RootPrim && RootPrim->IsSimulatingPhysics())
+        {
+            RootPrim->SetPhysicsLinearVelocity(Target->GetActorForwardVector() * 200.f);
+        }
+        else
+        {
+            Target->AddActorWorldOffset(Target->GetActorForwardVector() * 50.f);
+        }
     }
     else if (Action == TEXT("Pull"))
     {
-        Target->AddActorWorldOffset(-Target->GetActorForwardVector() * 50.f);
+        if (RootPrim && RootPrim->IsSimulatingPhysics())
+        {
+            RootPrim->SetPhysicsLinearVelocity(-Target->GetActorForwardVector() * 200.f);
+        }
+        else
+        {
+            Target->AddActorWorldOffset(-Target->GetActorForwardVector() * 50.f);
+        }
     }
     else if (Action == TEXT("OpenDoor"))
     {

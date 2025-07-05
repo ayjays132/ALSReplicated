@@ -110,3 +110,7 @@ A set of automation tests validates component replication. Open **Session Fronte
 UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.ComponentReplication -unattended
 ```
 
+## Interactive Actor Setup
+
+Interactive objects that you intend to push, pull or otherwise move should replicate their movement. Ensure the actor has **bReplicateMovement** enabled or that you manually replicate its transform. For the best network prediction during push and pull, use a `UPrimitiveComponent` with physics simulation and call `SetPhysicsLinearVelocity` rather than directly updating the actor transform.
+
