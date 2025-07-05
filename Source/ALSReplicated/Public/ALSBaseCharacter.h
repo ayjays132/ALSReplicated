@@ -36,6 +36,12 @@ public:
 
        void ToggleLockOn();
 
+       UFUNCTION(BlueprintCallable, Category="Combat")
+       void EquipWeapon(AActor* Weapon, FName SocketName);
+
+       UFUNCTION(BlueprintCallable, Category="Combat")
+       void UnequipWeapon();
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category="ALS || Rotation")

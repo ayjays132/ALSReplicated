@@ -4,6 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "Animation/AnimMontage.h"
 #include "Net/UnrealNetwork.h"
+#include "ALSCharacterMovementComponent.h"
 #include "CombatComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -31,6 +32,18 @@ public:
     UFUNCTION(BlueprintCallable, Category="Combat")
     void SpawnHitbox();
 
+    /** Add stamina back. Can be used by other systems */
+    UFUNCTION(BlueprintCallable, Category="Combat")
+    void AddStamina(float Amount);
+
+    /** Change the maximum stamina value */
+    UFUNCTION(BlueprintCallable, Category="Combat")
+    void SetMaxStamina(float NewMax);
+
+    /** Event fired for each hit detected during SpawnHitbox */
+    UFUNCTION(BlueprintImplementableEvent, Category="Combat")
+    void OnHitDetected(const FHitResult& Hit);
+
 protected:
     virtual void BeginPlay() override;
 
@@ -53,6 +66,12 @@ protected:
     UPROPERTY(Replicated)
     float AttackCooldown = 0.f;
 
+    UPROPERTY(Replicated)
+    float Stamina = 100.f;
+
+    UPROPERTY(EditDefaultsOnly, Category="Combat")
+    float MaxStamina = 100.f;
+
     FTimerHandle ComboTimerHandle;
     FTimerHandle AttackTimerHandle;
     FTimerHandle CooldownTimerHandle;
@@ -68,6 +87,14 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category="Combat")
     float AttackDuration = 0.5f;
+
+    UPROPERTY(EditDefaultsOnly, Category="Combat")
+    float AttackWalkSpeed = 200.f;
+
+    float PreviousWalkSpeed = 0.f;
+
+    UPROPERTY()
+    class UALSCharacterMovementComponent* CachedMovement;
 
     UPROPERTY(EditDefaultsOnly, Category="Combat")
     UAnimMontage* LightAttackMontage;
