@@ -55,7 +55,7 @@ void UEnvironmentInteractionComponent::PerformTrace(FHitResult& Hit)
     GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
 }
 
-void UEnvironmentInteractionComponent::BeginInteraction(const FString& Action, float Duration)
+void UEnvironmentInteractionComponent::BeginInteraction(EInteractionAction Action, float Duration)
 {
     if (GetOwnerRole() < ROLE_Authority)
     {
@@ -87,12 +87,12 @@ void UEnvironmentInteractionComponent::EndInteraction()
     }
 }
 
-void UEnvironmentInteractionComponent::ServerBeginInteraction_Implementation(const FString& Action, float Duration)
+void UEnvironmentInteractionComponent::ServerBeginInteraction_Implementation(EInteractionAction Action, float Duration)
 {
     BeginInteraction(Action, Duration);
 }
 
-bool UEnvironmentInteractionComponent::ServerBeginInteraction_Validate(const FString& Action, float Duration)
+bool UEnvironmentInteractionComponent::ServerBeginInteraction_Validate(EInteractionAction Action, float Duration)
 {
     return GetOwner() && GetOwner()->HasAuthority();
 }
@@ -103,8 +103,8 @@ void UEnvironmentInteractionComponent::PushObject()
     PerformTrace(Hit);
     if (Hit.GetActor())
     {
-        BeginInteraction(TEXT("Push"));
-        ServerInteract(Hit.GetActor(), TEXT("Push"));
+        BeginInteraction(EInteractionAction::Push);
+        ServerInteract(Hit.GetActor(), EInteractionAction::Push);
     }
 }
 
@@ -114,8 +114,8 @@ void UEnvironmentInteractionComponent::PullObject()
     PerformTrace(Hit);
     if (Hit.GetActor())
     {
-        BeginInteraction(TEXT("Pull"));
-        ServerInteract(Hit.GetActor(), TEXT("Pull"));
+        BeginInteraction(EInteractionAction::Pull);
+        ServerInteract(Hit.GetActor(), EInteractionAction::Pull);
     }
 }
 
@@ -125,8 +125,8 @@ void UEnvironmentInteractionComponent::OpenDoor()
     PerformTrace(Hit);
     if (Hit.GetActor())
     {
-        BeginInteraction(TEXT("OpenDoor"));
-        ServerInteract(Hit.GetActor(), TEXT("OpenDoor"));
+        BeginInteraction(EInteractionAction::OpenDoor);
+        ServerInteract(Hit.GetActor(), EInteractionAction::OpenDoor);
     }
 }
 
@@ -136,8 +136,8 @@ void UEnvironmentInteractionComponent::UseLever()
     PerformTrace(Hit);
     if (Hit.GetActor())
     {
-        BeginInteraction(TEXT("UseLever"));
-        ServerInteract(Hit.GetActor(), TEXT("UseLever"));
+        BeginInteraction(EInteractionAction::UseLever);
+        ServerInteract(Hit.GetActor(), EInteractionAction::UseLever);
     }
 }
 
@@ -152,8 +152,8 @@ void UEnvironmentInteractionComponent::GrabLedge()
             IGameplayTagAssetInterface* TagInterface = Cast<IGameplayTagAssetInterface>(Hit.GetActor());
             if (TagInterface && TagInterface->HasMatchingGameplayTag(LedgeTag))
             {
-                BeginInteraction(TEXT("GrabLedge"));
-                ServerInteract(Hit.GetActor(), TEXT("GrabLedge"));
+                BeginInteraction(EInteractionAction::GrabLedge);
+                ServerInteract(Hit.GetActor(), EInteractionAction::GrabLedge);
             }
         }
     }
@@ -165,8 +165,8 @@ void UEnvironmentInteractionComponent::UseZipline()
     PerformTrace(Hit);
     if (Hit.GetActor())
     {
-        BeginInteraction(TEXT("UseZipline"));
-        ServerInteract(Hit.GetActor(), TEXT("UseZipline"));
+        BeginInteraction(EInteractionAction::UseZipline);
+        ServerInteract(Hit.GetActor(), EInteractionAction::UseZipline);
     }
 }
 
@@ -193,7 +193,7 @@ void UEnvironmentInteractionComponent::UseAction()
     }
 }
 
-void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Target, const FString& Action)
+void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Target, EInteractionAction Action)
 {
     InteractedActor = Target;
     LastAction = Action;
@@ -202,12 +202,12 @@ void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Tar
     MulticastInteract(Target, Action);
 }
 
-bool UEnvironmentInteractionComponent::ServerInteract_Validate(AActor* Target, const FString& Action)
+bool UEnvironmentInteractionComponent::ServerInteract_Validate(AActor* Target, EInteractionAction Action)
 {
     return GetOwner() && GetOwner()->HasAuthority() && Target != nullptr;
 }
 
-void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const FString& Action)
+void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, EInteractionAction Action)
 {
     if (!Target)
     {
@@ -223,8 +223,9 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
 
     UPrimitiveComponent* RootPrim = Cast<UPrimitiveComponent>(Target->GetRootComponent());
 
-    if (Action == TEXT("Push"))
+    switch (Action)
     {
+    case EInteractionAction::Push:
         if (RootPrim && RootPrim->IsSimulatingPhysics())
         {
             RootPrim->SetPhysicsLinearVelocity(Target->GetActorForwardVector() * 200.f);
@@ -233,9 +234,8 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
         {
             Target->AddActorWorldOffset(Target->GetActorForwardVector() * 50.f);
         }
-    }
-    else if (Action == TEXT("Pull"))
-    {
+        break;
+    case EInteractionAction::Pull:
         if (RootPrim && RootPrim->IsSimulatingPhysics())
         {
             RootPrim->SetPhysicsLinearVelocity(-Target->GetActorForwardVector() * 200.f);
@@ -244,16 +244,14 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
         {
             Target->AddActorWorldOffset(-Target->GetActorForwardVector() * 50.f);
         }
-    }
-    else if (Action == TEXT("OpenDoor"))
-    {
+        break;
+    case EInteractionAction::OpenDoor:
         Target->AddActorWorldRotation(FRotator(0.f, 90.f, 0.f));
-    }
-    else if (Action == TEXT("UseLever"))
-    {
+        break;
+    case EInteractionAction::UseLever:
         Target->AddActorWorldRotation(FRotator(-45.f, 0.f, 0.f));
-    }
-    else if (Action == TEXT("GrabLedge"))
+        break;
+    case EInteractionAction::GrabLedge:
     {
         APawn* OwnerPawn = Cast<APawn>(GetOwner());
         if (OwnerPawn && CachedMovement)
@@ -263,8 +261,9 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
             OwnerPawn->SetActorLocation(TargetLocation);
             CachedMovement->SetMovementMode(MOVE_Walking);
         }
+        break;
     }
-    else if (Action == TEXT("UseZipline"))
+    case EInteractionAction::UseZipline:
     {
         APawn* OwnerPawn = Cast<APawn>(GetOwner());
         if (OwnerPawn && CachedMovement)
@@ -287,10 +286,14 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, const F
                 GetWorld()->GetTimerManager().SetTimer(ZiplineTimerHandle, this, &UEnvironmentInteractionComponent::UpdateZiplineMovement, 0.02f, true);
             }
         }
+        break;
+    }
+    default:
+        break;
     }
 }
 
-void UEnvironmentInteractionComponent::MulticastInteract_Implementation(AActor* Target, const FString& Action)
+void UEnvironmentInteractionComponent::MulticastInteract_Implementation(AActor* Target, EInteractionAction Action)
 {
     if (GetOwnerRole() == ROLE_SimulatedProxy)
     {

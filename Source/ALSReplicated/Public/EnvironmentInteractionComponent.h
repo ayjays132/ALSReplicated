@@ -10,6 +10,18 @@
 #include "CableComponent.h"
 #include "EnvironmentInteractionComponent.generated.h"
 
+UENUM(BlueprintType)
+enum class EInteractionAction : uint8
+{
+    None,
+    Push,
+    Pull,
+    OpenDoor,
+    UseLever,
+    GrabLedge,
+    UseZipline
+};
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ALSREPLICATED_API UEnvironmentInteractionComponent : public UActorComponent
 {
@@ -45,28 +57,28 @@ public:
 
 protected:
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerInteract(AActor* Target, const FString& Action);
+    void ServerInteract(AActor* Target, EInteractionAction Action);
 
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerBeginInteraction(const FString& Action, float Duration);
+    void ServerBeginInteraction(EInteractionAction Action, float Duration);
 
     UFUNCTION(NetMulticast, Reliable)
-    void MulticastInteract(AActor* Target, const FString& Action);
+    void MulticastInteract(AActor* Target, EInteractionAction Action);
 
     UFUNCTION()
     void OnRep_Interaction();
 
     void PerformTrace(FHitResult& Hit);
-    void HandleInteraction(AActor* Target, const FString& Action);
+    void HandleInteraction(AActor* Target, EInteractionAction Action);
 
-    void BeginInteraction(const FString& Action, float Duration = 1.0f);
+    void BeginInteraction(EInteractionAction Action, float Duration = 1.0f);
     void EndInteraction();
 
     UPROPERTY(ReplicatedUsing=OnRep_Interaction)
     AActor* InteractedActor = nullptr;
 
     UPROPERTY(ReplicatedUsing=OnRep_Interaction)
-    FString LastAction;
+    TEnumAsByte<EInteractionAction> LastAction = EInteractionAction::None;
 
     UPROPERTY(EditDefaultsOnly, Category="Interaction")
     FGameplayTag LedgeTag;
