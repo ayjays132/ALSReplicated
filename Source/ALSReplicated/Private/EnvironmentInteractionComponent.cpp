@@ -7,6 +7,7 @@
 #include "CableComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "TraversalSmartRouter.h"
+#include "VisualImpactSystem.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -312,6 +313,22 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, EIntera
     }
     default:
         break;
+    }
+
+    if (InteractionFX || InteractionDecal)
+    {
+        FVector Location = Target->GetActorLocation();
+        FVector Direction = (Location - GetOwner()->GetActorLocation()).GetSafeNormal();
+
+        if (InteractionFX)
+        {
+            UVisualImpactSystem::SpawnDirectionalNiagaraFX(this, InteractionFX, Location, Direction, 1.f, HeavyImpactShake);
+        }
+
+        if (InteractionDecal)
+        {
+            UVisualImpactSystem::SpawnImpactDecal(this, InteractionDecal, Location, Direction, 1.f, InteractionDecalSize, InteractionDecalLifeSpan);
+        }
     }
 }
 

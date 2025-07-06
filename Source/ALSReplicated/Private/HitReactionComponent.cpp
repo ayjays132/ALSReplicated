@@ -2,7 +2,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
-#include "NiagaraFunctionLibrary.h"
+#include "VisualImpactSystem.h"
 #include "Camera/CameraShakeBase.h"
 #include "Net/UnrealNetwork.h"
 #include "StaminaComponent.h"
@@ -104,24 +104,12 @@ void UHitReactionComponent::PlayHit(FVector HitLocation, FVector HitDirection, b
 
     if (FX)
     {
-        UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), FX, HitLocation);
+        UVisualImpactSystem::SpawnDirectionalNiagaraFX(this, FX, HitLocation, HitDirection, bCriticalHit ? 2.f : 1.f, bCriticalHit ? CriticalCameraShake : HitCameraShake);
     }
 
     if (ImpactDecal)
     {
-        UGameplayStatics::SpawnDecalAtLocation(GetWorld(), ImpactDecal, DecalSize, HitLocation, HitDirection.Rotation(), DecalLifeSpan);
-    }
-
-    if (APlayerController* PC = Cast<APlayerController>(OwnerChar->GetController()))
-    {
-        if (bCriticalHit && CriticalCameraShake)
-        {
-            PC->ClientStartCameraShake(CriticalCameraShake);
-        }
-        else if (HitCameraShake)
-        {
-            PC->ClientStartCameraShake(HitCameraShake);
-        }
+        UVisualImpactSystem::SpawnImpactDecal(this, ImpactDecal, HitLocation, HitDirection, 1.f, DecalSize, DecalLifeSpan);
     }
 
     if (bCriticalHit && CriticalSlowMoTime > 0.f)
