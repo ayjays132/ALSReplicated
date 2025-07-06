@@ -5,19 +5,28 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Camera/CameraShakeBase.h"
 #include "Net/UnrealNetwork.h"
+#include "StaminaComponent.h"
 
 UHitReactionComponent::UHitReactionComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     SetIsReplicatedByDefault(true);
-    Stamina = MaxStamina;
+}
+
+void UHitReactionComponent::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (AActor* Owner = GetOwner())
+    {
+        StaminaComponent = Owner->FindComponentByClass<UStaminaComponent>();
+    }
 }
 
 void UHitReactionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(UHitReactionComponent, bIsKnockedOut);
-    DOREPLIFETIME(UHitReactionComponent, Stamina);
     DOREPLIFETIME(UHitReactionComponent, bIsRagdoll);
 }
 
@@ -120,10 +129,11 @@ void UHitReactionComponent::PlayHit(FVector HitLocation, FVector HitDirection, b
         StartSlowMotion();
     }
 
-    if (bBlocked)
+    if (bBlocked && StaminaComponent)
     {
-        Stamina = FMath::Clamp(Stamina - BlockStaminaCost, 0.f, MaxStamina);
-        if (Stamina <= 0.f && StaggerMontage)
+        const float Previous = StaminaComponent->Stamina;
+        StaminaComponent->AddStamina(-BlockStaminaCost);
+        if (StaminaComponent->Stamina <= 0.f && Previous > 0.f && StaggerMontage)
         {
             OwnerChar->PlayAnimMontage(StaggerMontage);
         }
@@ -248,12 +258,17 @@ void UHitReactionComponent::MulticastOnRevive_Implementation()
 
 void UHitReactionComponent::AddStamina(float Amount)
 {
-    Stamina = FMath::Clamp(Stamina + Amount, 0.f, MaxStamina);
+    if (StaminaComponent)
+    {
+        StaminaComponent->AddStamina(Amount);
+    }
 }
 
 void UHitReactionComponent::SetMaxStamina(float NewMax)
 {
-    MaxStamina = NewMax;
-    Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
+    if (StaminaComponent)
+    {
+        StaminaComponent->SetMaxStamina(NewMax);
+    }
 }
 
