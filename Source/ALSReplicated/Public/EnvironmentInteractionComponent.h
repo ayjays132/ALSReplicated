@@ -8,6 +8,7 @@
 #include "ALSCharacterMovementComponent.h"
 #include "Components/SplineComponent.h"
 #include "CableComponent.h"
+#include "TraversalSmartRouter.h"
 #include "EnvironmentInteractionComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -88,6 +89,9 @@ protected:
 
     UPROPERTY()
     UALSCharacterMovementComponent* CachedMovement = nullptr;
+
+    UPROPERTY()
+    UTraversalSmartRouter* TraversalRouter = nullptr;
 
     UPROPERTY()
     USplineComponent* ActiveZipline = nullptr;
