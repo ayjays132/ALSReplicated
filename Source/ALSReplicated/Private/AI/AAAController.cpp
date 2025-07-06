@@ -1,7 +1,9 @@
 #include "AI/AAAController.h"
+#include "AI/EmotionStateComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "Perception/AISenseConfig_Hearing.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Net/UnrealNetwork.h"
 
 AALSBaseAIController::AALSBaseAIController()
@@ -11,6 +13,7 @@ AALSBaseAIController::AALSBaseAIController()
     PerceptionComponent = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("PerceptionComponent"));
     SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
     HearingConfig = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("HearingConfig"));
+    EmotionComponent = CreateDefaultSubobject<UEmotionStateComponent>(TEXT("EmotionComponent"));
 
     if (PerceptionComponent)
     {
@@ -39,6 +42,15 @@ void AALSBaseAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus 
     {
         CurrentTarget = nullptr;
         OnRep_CurrentTarget();
+    }
+
+    if (EmotionComponent)
+    {
+        EmotionComponent->HandlePerception(Stimulus.WasSuccessfullySensed());
+        if (UBlackboardComponent* BB = GetBlackboardComponent())
+        {
+            BB->SetValueAsEnum(TEXT("Emotion"), (uint8)EmotionComponent->GetEmotion());
+        }
     }
 }
 

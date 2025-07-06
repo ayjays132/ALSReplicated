@@ -8,6 +8,7 @@
 class UAIPerceptionComponent;
 class UAISenseConfig_Sight;
 class UAISenseConfig_Hearing;
+class UEmotionStateComponent;
 
 /**
  * Basic AI controller used for replicated AI characters.
@@ -31,6 +32,9 @@ protected:
 
     UPROPERTY()
     UAISenseConfig_Hearing* HearingConfig;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AI")
+    UEmotionStateComponent* EmotionComponent;
 
     UFUNCTION()
     void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
