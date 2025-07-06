@@ -85,3 +85,33 @@ void UALSCharacterMovementComponent::Server_BrakingFrictionFactor_Implementation
 {
         NewBrakingFrictionFactor = Braking_FrictionFactor;
 }
+
+void UALSCharacterMovementComponent::OnRep_NewMaxWalkSpeed()
+{
+    MaxWalkSpeed = NewMaxWalkSpeed;
+}
+
+void UALSCharacterMovementComponent::OnRep_NewMaxWalkSpeedCrouched()
+{
+    MaxWalkSpeedCrouched = NewMaxWalkSpeedCrouched;
+}
+
+void UALSCharacterMovementComponent::OnRep_NewMaxAcceleration()
+{
+    MaxAcceleration = NewMaxAcceleration;
+}
+
+void UALSCharacterMovementComponent::OnRep_NewBrakingDecelerationWalking()
+{
+    BrakingDecelerationWalking = NewBrakingDecelerationWalking;
+}
+
+void UALSCharacterMovementComponent::OnRep_NewGroundFriction()
+{
+    GroundFriction = NewGroundFriction;
+}
+
+void UALSCharacterMovementComponent::OnRep_NewBrakingFrictionFactor()
+{
+    BrakingFrictionFactor = NewBrakingFrictionFactor;
+}
