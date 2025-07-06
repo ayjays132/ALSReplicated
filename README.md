@@ -101,6 +101,14 @@ A description of what actually happens.
 
 `UCombatComponent` exposes the `OnAttackStateChanged` event which is triggered whenever an attack begins or ends. Implement this in your blueprint to play effects or update the UI when `bAttacking` is `true` or `false`.
 
+`UCharacterStateCoordinator` coordinates high level states like **Combat**, **Stealth** and **Exploration**. Other components may subscribe to its events:
+
+* `OnCombatEngaged` &ndash; fired when the coordinator enters the Combat state.
+* `OnStaminaCritical` &ndash; fired when the owning character's stamina is depleted.
+* `OnTraversalAction` &ndash; call `NotifyTraversalAction()` to broadcast custom traversal events such as climbing or vaulting.
+
+These events make it easy for Blueprints to react to state changes or trigger UI updates without coupling systems together.
+
 
 ## Automation Tests
 
