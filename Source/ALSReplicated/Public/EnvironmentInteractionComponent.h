@@ -8,6 +8,9 @@
 #include "ALSCharacterMovementComponent.h"
 #include "Components/SplineComponent.h"
 #include "CableComponent.h"
+#include "NiagaraSystem.h"
+#include "Camera/CameraShakeBase.h"
+#include "Materials/MaterialInterface.h"
 #include "TraversalSmartRouter.h"
 #include "EnvironmentInteractionComponent.generated.h"
 
@@ -95,6 +98,21 @@ protected:
 
     UPROPERTY()
     USplineComponent* ActiveZipline = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    UNiagaraSystem* InteractionFX = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    UMaterialInterface* InteractionDecal = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    FVector InteractionDecalSize = FVector(10.f, 10.f, 10.f);
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    float InteractionDecalLifeSpan = 5.f;
+
+    UPROPERTY(EditDefaultsOnly, Category="FX")
+    TSubclassOf<UCameraShakeBase> HeavyImpactShake;
 
     FTimerHandle ZiplineTimerHandle;
     float ZiplineProgress = 0.f;
