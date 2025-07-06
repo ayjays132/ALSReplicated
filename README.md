@@ -114,3 +114,5 @@ UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.* -unat
 
 Interactive objects that you intend to push, pull or otherwise move should replicate their movement. Ensure the actor has **bReplicateMovement** enabled or that you manually replicate its transform. For the best network prediction during push and pull, use a `UPrimitiveComponent` with physics simulation and call `SetPhysicsLinearVelocity` rather than directly updating the actor transform.
 
+Actors involved in interactions should also enable **bReplicates** and **bReplicateMovement** in their constructors or blueprint defaults. `UEnvironmentInteractionComponent` no longer forces these flags at runtime and will only log a warning if they are missing.
+
