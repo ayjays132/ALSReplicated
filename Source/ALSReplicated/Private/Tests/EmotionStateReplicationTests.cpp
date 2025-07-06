@@ -13,4 +13,16 @@ bool FEmotionStateReplicationTest::RunTest(const FString& Parameters)
     return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FEmotionStateTransitionTest, "ALSReplicated.EmotionState.Transitions", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FEmotionStateTransitionTest::RunTest(const FString& Parameters)
+{
+    UEmotionStateComponent* Emotion = NewObject<UEmotionStateComponent>();
+    Emotion->HandlePerception(true);
+    TestEqual(TEXT("Perceiving an enemy sets Aggression"), Emotion->GetEmotion(), EEmotionState::Aggression);
+
+    Emotion->HandlePerception(false);
+    TestEqual(TEXT("Losing sight returns to Calm"), Emotion->GetEmotion(), EEmotionState::Calm);
+    return true;
+}
+
 #endif // WITH_DEV_AUTOMATION_TESTS
