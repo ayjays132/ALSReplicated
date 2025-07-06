@@ -112,7 +112,7 @@ These events make it easy for Blueprints to react to state changes or trigger UI
 
 ## Automation Tests
 
-A set of automation tests validates component replication. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`, `ALSReplicated.StaminaReplication`, `ALSReplicated.LockOn.TargetReplication` and `ALSReplicated.EnvironmentInteractionReplication`. Alternatively, run them from the command line:
+A set of automation tests validates component replication and event behavior. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`, `ALSReplicated.StaminaReplication`, `ALSReplicated.LockOn.TargetReplication`, `ALSReplicated.EnvironmentInteractionReplication`, `ALSReplicated.Stamina.Events`, `ALSReplicated.CharacterStateCoordinator.Events` and `ALSReplicated.EmotionState.Transitions`. Alternatively, run them from the command line:
 
 ```
 UE4Editor.exe <YourProject>.uproject -run=Automation -test=ALSReplicated.* -unattended
