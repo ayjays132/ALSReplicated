@@ -37,23 +37,41 @@ public:
         void SetBrakingFrictionFactor(float Braking_FrictionFactor);
 	
 private:
-	UPROPERTY(Replicated)
-	float NewMaxWalkSpeed = MaxWalkSpeed;
-	
-	UPROPERTY(Replicated)
-        float NewMaxWalkSpeedCrouched = MaxWalkSpeedCrouched;
+       UFUNCTION()
+       void OnRep_NewMaxWalkSpeed();
 
-	UPROPERTY(Replicated)
-	float NewMaxAcceleration = MaxAcceleration;
+       UFUNCTION()
+       void OnRep_NewMaxWalkSpeedCrouched();
 
-	UPROPERTY(Replicated)
-	float NewBrakingDecelerationWalking = BrakingDecelerationWalking;
-	
-	UPROPERTY(Replicated)
-    float NewGroundFriction = GroundFriction;
+       UFUNCTION()
+       void OnRep_NewMaxAcceleration();
 
-	UPROPERTY(Replicated)
-        float NewBrakingFrictionFactor = BrakingFrictionFactor;
+       UFUNCTION()
+       void OnRep_NewBrakingDecelerationWalking();
+
+       UFUNCTION()
+       void OnRep_NewGroundFriction();
+
+       UFUNCTION()
+       void OnRep_NewBrakingFrictionFactor();
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewMaxWalkSpeed)
+       float NewMaxWalkSpeed = MaxWalkSpeed;
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewMaxWalkSpeedCrouched)
+       float NewMaxWalkSpeedCrouched = MaxWalkSpeedCrouched;
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewMaxAcceleration)
+       float NewMaxAcceleration = MaxAcceleration;
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewBrakingDecelerationWalking)
+       float NewBrakingDecelerationWalking = BrakingDecelerationWalking;
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewGroundFriction)
+   float NewGroundFriction = GroundFriction;
+
+       UPROPERTY(ReplicatedUsing=OnRep_NewBrakingFrictionFactor)
+       float NewBrakingFrictionFactor = BrakingFrictionFactor;
 
 	UFUNCTION(Server, Reliable)
 	void Server_MaxWalkSpeed(float Max_WalkSpeed);
