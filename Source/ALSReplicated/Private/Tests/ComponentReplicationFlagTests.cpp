@@ -44,8 +44,6 @@ bool FHitReactionReplicationFlagsTest::RunTest(const FString& Parameters)
     FProperty* KnockedOutProp = HitReactionClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UHitReactionComponent, bIsKnockedOut));
     TestTrue(TEXT("bIsKnockedOut should replicate"), KnockedOutProp && KnockedOutProp->HasAnyPropertyFlags(CPF_Net));
 
-    FProperty* StaminaProp = HitReactionClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UHitReactionComponent, Stamina));
-    TestTrue(TEXT("Stamina should replicate"), StaminaProp && StaminaProp->HasAnyPropertyFlags(CPF_Net));
 
     FProperty* RagdollProp = HitReactionClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UHitReactionComponent, bIsRagdoll));
     TestTrue(TEXT("bIsRagdoll should replicate"), RagdollProp && RagdollProp->HasAnyPropertyFlags(CPF_Net));

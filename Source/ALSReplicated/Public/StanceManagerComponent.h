@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
+class UStaminaComponent;
 #include "StanceManagerComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -65,6 +67,6 @@ protected:
     class UALSCharacterMovementComponent* CachedMovement = nullptr;
 
     UPROPERTY()
-    class UCombatComponent* CachedCombat = nullptr;
+    UStaminaComponent* CachedStamina = nullptr;
 };
 

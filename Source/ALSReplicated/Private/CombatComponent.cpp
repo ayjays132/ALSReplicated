@@ -1,6 +1,7 @@
 #include "CombatComponent.h"
 #include "GameFramework/Character.h"
 #include "ALSCharacterMovementComponent.h"
+#include "StaminaComponent.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -12,8 +13,6 @@ void UCombatComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    Stamina = MaxStamina;
-
     if (ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner()))
     {
         CachedMovement = Cast<UALSCharacterMovementComponent>(OwnerCharacter->GetCharacterMovement());
@@ -21,6 +20,7 @@ void UCombatComponent::BeginPlay()
         {
             PreviousWalkSpeed = CachedMovement->MaxWalkSpeed;
         }
+        StaminaComponent = OwnerCharacter->FindComponentByClass<UStaminaComponent>();
     }
 }
 
@@ -31,8 +31,6 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(UCombatComponent, bIsAttacking);
     DOREPLIFETIME(UCombatComponent, ComboIndex);
     DOREPLIFETIME(UCombatComponent, AttackCooldown);
-    DOREPLIFETIME(UCombatComponent, Stamina);
-    DOREPLIFETIME(UCombatComponent, MaxStamina);
 }
 
 void UCombatComponent::LightAttack()
@@ -41,7 +39,7 @@ void UCombatComponent::LightAttack()
     {
         return;
     }
-    if (Stamina < LightAttackStaminaCost)
+    if (!StaminaComponent || StaminaComponent->Stamina < LightAttackStaminaCost)
     {
         return;
     }
@@ -54,7 +52,7 @@ void UCombatComponent::HeavyAttack()
     {
         return;
     }
-    if (Stamina < HeavyAttackStaminaCost)
+    if (!StaminaComponent || StaminaComponent->Stamina < HeavyAttackStaminaCost)
     {
         return;
     }
@@ -76,7 +74,10 @@ void UCombatComponent::DoAttack(bool bHeavy)
     bIsAttacking = true;
     ComboIndex++;
 
-    Stamina = FMath::Clamp(Stamina - (bHeavy ? HeavyAttackStaminaCost : LightAttackStaminaCost), 0.f, MaxStamina);
+    if (StaminaComponent)
+    {
+        StaminaComponent->AddStamina(-(bHeavy ? HeavyAttackStaminaCost : LightAttackStaminaCost));
+    }
 
     if (CachedMovement)
     {
@@ -127,10 +128,6 @@ void UCombatComponent::OnRep_AttackState()
     OnAttackStateChanged(bIsAttacking);
 }
 
-void UCombatComponent::OnRep_MaxStamina()
-{
-    Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
-}
 
 void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
 {
@@ -211,13 +208,17 @@ void UCombatComponent::SpawnHitbox()
 
 void UCombatComponent::AddStamina(float Amount)
 {
-    Stamina = FMath::Clamp(Stamina + Amount, 0.f, MaxStamina);
+    if (StaminaComponent)
+    {
+        StaminaComponent->AddStamina(Amount);
+    }
 }
 
 void UCombatComponent::SetMaxStamina(float NewMax)
 {
-    MaxStamina = NewMax;
-    Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
-    OnRep_MaxStamina();
+    if (StaminaComponent)
+    {
+        StaminaComponent->SetMaxStamina(NewMax);
+    }
 }
 

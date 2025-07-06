@@ -1,6 +1,6 @@
 #include "StanceManagerComponent.h"
 #include "ALSCharacterMovementComponent.h"
-#include "CombatComponent.h"
+#include "StaminaComponent.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
@@ -17,7 +17,7 @@ void UStanceManagerComponent::BeginPlay()
     if (ACharacter* OwnerChar = Cast<ACharacter>(GetOwner()))
     {
         CachedMovement = Cast<UALSCharacterMovementComponent>(OwnerChar->GetCharacterMovement());
-        CachedCombat = OwnerChar->FindComponentByClass<UCombatComponent>();
+        CachedStamina = OwnerChar->FindComponentByClass<UStaminaComponent>();
     }
 
     ApplyStance();
@@ -77,9 +77,9 @@ void UStanceManagerComponent::ApplyStance()
         CachedMovement->SetMaxWalkSpeed(Speed);
     }
 
-    if (CachedCombat)
+    if (CachedStamina)
     {
-        CachedCombat->SetMaxStamina(MaxStam);
+        CachedStamina->SetMaxStamina(MaxStam);
     }
 }
 

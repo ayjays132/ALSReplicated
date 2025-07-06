@@ -1,5 +1,6 @@
 #include "Misc/AutomationTest.h"
 #include "CombatComponent.h"
+#include "StaminaComponent.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
@@ -16,17 +17,7 @@ bool FCombatComponentReplicationTest::RunTest(const FString& Parameters)
         TestTrue(TEXT("bIsAttacking should replicate"), bReplicated);
     }
 
-    {
-        FProperty* Prop = CombatClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UCombatComponent, Stamina));
-        const bool bReplicated = Prop && Prop->HasAnyPropertyFlags(CPF_Net);
-        TestTrue(TEXT("Stamina should replicate"), bReplicated);
-    }
 
-    {
-        FProperty* Prop = CombatClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UCombatComponent, MaxStamina));
-        const bool bReplicated = Prop && Prop->HasAnyPropertyFlags(CPF_Net);
-        TestTrue(TEXT("MaxStamina should replicate"), bReplicated);
-    }
 
     return true;
 }

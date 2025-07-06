@@ -5,6 +5,8 @@
 #include "Animation/AnimMontage.h"
 #include "Net/UnrealNetwork.h"
 #include "ALSCharacterMovementComponent.h"
+
+class UStaminaComponent;
 #include "CombatComponent.generated.h"
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -76,14 +78,9 @@ protected:
     UPROPERTY(Replicated)
     float AttackCooldown = 0.f;
 
-    UPROPERTY(Replicated)
-    float Stamina = 100.f;
 
-    UFUNCTION()
-    void OnRep_MaxStamina();
-
-    UPROPERTY(ReplicatedUsing=OnRep_MaxStamina, EditDefaultsOnly, Category="Combat")
-    float MaxStamina = 100.f;
+    UPROPERTY()
+    UStaminaComponent* StaminaComponent = nullptr;
 
     FTimerHandle ComboTimerHandle;
     FTimerHandle AttackTimerHandle;

@@ -1,5 +1,5 @@
 #include "Misc/AutomationTest.h"
-#include "CombatComponent.h"
+#include "StaminaComponent.h"
 #include "LockOnComponent.h"
 #include "EnvironmentInteractionComponent.h"
 
@@ -8,10 +8,20 @@
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FStaminaReplicationTest, "ALSReplicated.StaminaReplication", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 bool FStaminaReplicationTest::RunTest(const FString& Parameters)
 {
-    UClass* CombatClass = UCombatComponent::StaticClass();
-    FProperty* Prop = CombatClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UCombatComponent, Stamina));
+    UClass* StaminaClass = UStaminaComponent::StaticClass();
+    FProperty* Prop = StaminaClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UStaminaComponent, Stamina));
     const bool bReplicated = Prop && Prop->HasAnyPropertyFlags(CPF_Net);
     TestTrue(TEXT("Stamina should replicate"), bReplicated);
+    return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FMaxStaminaReplicationTest, "ALSReplicated.MaxStaminaReplication", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FMaxStaminaReplicationTest::RunTest(const FString& Parameters)
+{
+    UClass* StaminaClass = UStaminaComponent::StaticClass();
+    FProperty* Prop = StaminaClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UStaminaComponent, MaxStamina));
+    const bool bReplicated = Prop && Prop->HasAnyPropertyFlags(CPF_Net);
+    TestTrue(TEXT("MaxStamina should replicate"), bReplicated);
     return true;
 }
 

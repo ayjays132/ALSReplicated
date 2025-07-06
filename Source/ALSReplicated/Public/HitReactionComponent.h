@@ -5,6 +5,7 @@
 #include "NiagaraSystem.h"
 #include "Camera/CameraShakeBase.h"
 #include "Materials/MaterialInterface.h"
+#include "StaminaComponent.h"
 #include "HitReactionComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -36,6 +37,7 @@ public:
     void SetMaxStamina(float NewMax);
 
 protected:
+    virtual void BeginPlay() override;
     UFUNCTION(Server, Reliable)
     void ServerReceiveHit(FVector_NetQuantize HitLocation, FVector_NetQuantizeNormal HitDirection, bool bCriticalHit, bool bBlocked, bool bKnockout);
 
@@ -56,11 +58,8 @@ protected:
     UPROPERTY(ReplicatedUsing=OnRep_KnockedOut)
     bool bIsKnockedOut = false;
 
-    UPROPERTY(Replicated)
-    float Stamina = 100.f;
-
-    UPROPERTY(EditDefaultsOnly, Category="Stamina")
-    float MaxStamina = 100.f;
+    UPROPERTY()
+    UStaminaComponent* StaminaComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, Category="Stamina")
     float BlockStaminaCost = 20.f;
