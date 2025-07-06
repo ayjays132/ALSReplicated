@@ -6,6 +6,7 @@
 #include "Components/SplineComponent.h"
 #include "CableComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "TraversalSmartRouter.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -24,6 +25,7 @@ void UEnvironmentInteractionComponent::BeginPlay()
         {
             CachedMovement = Cast<UALSCharacterMovementComponent>(Pawn->GetMovementComponent());
         }
+        TraversalRouter = OwnerActor->FindComponentByClass<UTraversalSmartRouter>();
     }
 }
 
@@ -190,6 +192,23 @@ void UEnvironmentInteractionComponent::UseAction()
     else if (Hit.GetActor()->ActorHasTag(TEXT("Pushable")))
     {
         PushObject();
+    }
+    else if (TraversalRouter)
+    {
+        const ETraversalAction Action = TraversalRouter->EvaluateTraversal();
+        switch (Action)
+        {
+        case ETraversalAction::LedgeGrab:
+        case ETraversalAction::Mantle:
+        case ETraversalAction::WallClimb:
+            GrabLedge();
+            break;
+        case ETraversalAction::Zipline:
+            UseZipline();
+            break;
+        default:
+            break;
+        }
     }
 }
 
