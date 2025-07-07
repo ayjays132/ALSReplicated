@@ -34,8 +34,7 @@ void UEnvironmentInteractionComponent::GetLifetimeReplicatedProps(TArray<FLifeti
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-    DOREPLIFETIME(UEnvironmentInteractionComponent, InteractedActor);
-    DOREPLIFETIME(UEnvironmentInteractionComponent, LastAction);
+    DOREPLIFETIME(UEnvironmentInteractionComponent, InteractionInfo);
     DOREPLIFETIME(UEnvironmentInteractionComponent, bIsInteracting);
 }
 
@@ -66,7 +65,7 @@ void UEnvironmentInteractionComponent::BeginInteraction(EInteractionAction Actio
     }
 
     bIsInteracting = true;
-    LastAction = Action;
+    InteractionInfo.Action = Action;
 
     if (CachedMovement)
     {
@@ -215,8 +214,8 @@ void UEnvironmentInteractionComponent::UseAction()
 
 void UEnvironmentInteractionComponent::ServerInteract_Implementation(AActor* Target, EInteractionAction Action)
 {
-    InteractedActor = Target;
-    LastAction = Action;
+    InteractionInfo.Actor = Target;
+    InteractionInfo.Action = Action;
 
     HandleInteraction(Target, Action);
     MulticastInteract(Target, Action);
@@ -342,7 +341,7 @@ void UEnvironmentInteractionComponent::MulticastInteract_Implementation(AActor* 
 
 void UEnvironmentInteractionComponent::OnRep_Interaction()
 {
-    HandleInteraction(InteractedActor, LastAction);
+    HandleInteraction(InteractionInfo.Actor, InteractionInfo.Action);
 }
 
 void UEnvironmentInteractionComponent::UpdateZiplineMovement()
