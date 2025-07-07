@@ -5,6 +5,7 @@
 #include "Perception/AISenseConfig_Hearing.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "ImpactEventSubsystem.h"
 
 AALSBaseAIController::AALSBaseAIController()
 {
@@ -22,6 +23,19 @@ AALSBaseAIController::AALSBaseAIController()
         PerceptionComponent->ConfigureSense(*HearingConfig);
         PerceptionComponent->SetDominantSense(SightConfig->GetSenseImplementation());
         PerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AALSBaseAIController::OnTargetPerceptionUpdated);
+    }
+}
+
+void AALSBaseAIController::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (UWorld* World = GetWorld())
+    {
+        if (UImpactEventSubsystem* Subsystem = World->GetSubsystem<UImpactEventSubsystem>())
+        {
+            Subsystem->OnHardImpact.AddDynamic(this, &AALSBaseAIController::HandleHardImpact);
+        }
     }
 }
 
@@ -57,5 +71,20 @@ void AALSBaseAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus 
 void AALSBaseAIController::OnRep_CurrentTarget()
 {
     // Hook for blueprint or native code
+}
+
+void AALSBaseAIController::HandleHardImpact(AActor* Instigator, FVector Location)
+{
+    APawn* Controlled = GetPawn();
+    if (!Controlled)
+    {
+        return;
+    }
+
+    const float DistSq = FVector::DistSquared(Controlled->GetActorLocation(), Location);
+    if (DistSq <= FMath::Square(1000.f) && EmotionComponent)
+    {
+        EmotionComponent->SetEmotion(EEmotionState::Alert);
+    }
 }
 

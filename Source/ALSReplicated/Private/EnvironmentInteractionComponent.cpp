@@ -8,6 +8,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "TraversalSmartRouter.h"
 #include "VisualImpactSystem.h"
+#include "ImpactEventSubsystem.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -327,6 +328,14 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, EIntera
         if (InteractionDecal)
         {
             UVisualImpactSystem::SpawnImpactDecal(this, InteractionDecal, Location, Direction, 1.f, InteractionDecalSize, InteractionDecalLifeSpan);
+        }
+
+        if (UWorld* World = GetWorld())
+        {
+            if (UImpactEventSubsystem* Subsystem = World->GetSubsystem<UImpactEventSubsystem>())
+            {
+                Subsystem->BroadcastImpact(GetOwner(), Location);
+            }
         }
     }
 }

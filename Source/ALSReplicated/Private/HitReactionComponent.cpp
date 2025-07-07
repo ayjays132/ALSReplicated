@@ -6,6 +6,7 @@
 #include "Camera/CameraShakeBase.h"
 #include "Net/UnrealNetwork.h"
 #include "StaminaComponent.h"
+#include "ImpactEventSubsystem.h"
 
 UHitReactionComponent::UHitReactionComponent()
 {
@@ -131,6 +132,14 @@ void UHitReactionComponent::PlayHit(FVector HitLocation, FVector HitDirection, b
     {
         bIsKnockedOut = true;
         SetRagdollActive(true);
+    }
+
+    if (UWorld* World = GetWorld())
+    {
+        if (UImpactEventSubsystem* Subsystem = World->GetSubsystem<UImpactEventSubsystem>())
+        {
+            Subsystem->BroadcastImpact(OwnerChar, HitLocation);
+        }
     }
 }
 
