@@ -36,9 +36,12 @@ void UStanceManagerComponent::SetStance(EStanceMode NewStance)
         ServerSetStance(NewStance);
         return;
     }
-
-    CurrentStance = NewStance;
-    ApplyStance();
+    if (CurrentStance != NewStance)
+    {
+        CurrentStance = NewStance;
+        OnStanceChanged.Broadcast(CurrentStance);
+        ApplyStance();
+    }
 }
 
 void UStanceManagerComponent::ServerSetStance_Implementation(EStanceMode NewStance)
@@ -49,6 +52,10 @@ void UStanceManagerComponent::ServerSetStance_Implementation(EStanceMode NewStan
 void UStanceManagerComponent::OnRep_Stance()
 {
     ApplyStance();
+    if (GetOwnerRole() != ROLE_Authority)
+    {
+        OnStanceChanged.Broadcast(CurrentStance);
+    }
 }
 
 void UStanceManagerComponent::ApplyStance()

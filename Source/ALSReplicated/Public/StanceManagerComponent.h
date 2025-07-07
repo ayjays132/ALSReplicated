@@ -14,6 +14,9 @@ enum class EStanceMode : uint8
     Aggressive
 };
 
+/** Notifies listeners when the stance changes */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStanceChanged, EStanceMode, NewStance);
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ALSREPLICATED_API UStanceManagerComponent : public UActorComponent
 {
@@ -28,6 +31,10 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="Stance")
     EStanceMode GetStance() const { return CurrentStance; }
+
+    /** Fired whenever the stance changes */
+    UPROPERTY(BlueprintAssignable)
+    FStanceChanged OnStanceChanged;
 
 protected:
     virtual void BeginPlay() override;
