@@ -30,4 +30,24 @@ bool FCharacterStateCoordinatorEventsTest::RunTest(const FString& Parameters)
     return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FCharacterStateCoordinatorStateChangeTest, "ALSReplicated.CharacterStateCoordinator.StateChanged", EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FCharacterStateCoordinatorStateChangeTest::RunTest(const FString& Parameters)
+{
+    UCharacterStateCoordinator* Coordinator = NewObject<UCharacterStateCoordinator>();
+    int32 ChangeCount = 0;
+    ECharacterActivityState LastState = ECharacterActivityState::Exploration;
+    Coordinator->OnStateChanged.AddLambda([&](ECharacterActivityState NewState)
+    {
+        ++ChangeCount;
+        LastState = NewState;
+    });
+
+    Coordinator->SetCharacterState(ECharacterActivityState::Combat);
+
+    TestEqual(TEXT("OnStateChanged fired"), ChangeCount, 1);
+    TestEqual(TEXT("New state reported"), LastState, ECharacterActivityState::Combat);
+
+    return true;
+}
+
 #endif // WITH_DEV_AUTOMATION_TESTS
