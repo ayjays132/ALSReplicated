@@ -1,6 +1,9 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "ALSReplicated.h"
+#include "ALSLog.h"
+
+DEFINE_LOG_CATEGORY(LogALSReplicated);
 
 #define LOCTEXT_NAMESPACE "FALSReplicatedModule"
 
