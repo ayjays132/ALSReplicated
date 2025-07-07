@@ -26,6 +26,18 @@ enum class EInteractionAction : uint8
     UseZipline
 };
 
+USTRUCT()
+struct FInteractionInfo
+{
+    GENERATED_BODY()
+
+    UPROPERTY()
+    AActor* Actor = nullptr;
+
+    UPROPERTY()
+    TEnumAsByte<EInteractionAction> Action = EInteractionAction::None;
+};
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ALSREPLICATED_API UEnvironmentInteractionComponent : public UActorComponent
 {
@@ -79,10 +91,7 @@ protected:
     void EndInteraction();
 
     UPROPERTY(ReplicatedUsing=OnRep_Interaction)
-    AActor* InteractedActor = nullptr;
-
-    UPROPERTY(ReplicatedUsing=OnRep_Interaction)
-    TEnumAsByte<EInteractionAction> LastAction = EInteractionAction::None;
+    FInteractionInfo InteractionInfo;
 
     UPROPERTY(EditDefaultsOnly, Category="Interaction")
     FGameplayTag LedgeTag;

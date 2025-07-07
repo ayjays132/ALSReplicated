@@ -24,11 +24,8 @@ bool FEnvironmentInteractionReplicationFlagsTest::RunTest(const FString& Paramet
 {
     UClass* EnvClass = UEnvironmentInteractionComponent::StaticClass();
 
-    FProperty* InteractedProp = EnvClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UEnvironmentInteractionComponent, InteractedActor));
-    TestTrue(TEXT("InteractedActor should replicate"), InteractedProp && InteractedProp->HasAnyPropertyFlags(CPF_Net));
-
-    FProperty* LastActionProp = EnvClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UEnvironmentInteractionComponent, LastAction));
-    TestTrue(TEXT("LastAction should replicate"), LastActionProp && LastActionProp->HasAnyPropertyFlags(CPF_Net));
+    FProperty* InteractionProp = EnvClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UEnvironmentInteractionComponent, InteractionInfo));
+    TestTrue(TEXT("InteractionInfo should replicate"), InteractionProp && InteractionProp->HasAnyPropertyFlags(CPF_Net));
 
     FProperty* InteractingProp = EnvClass->FindPropertyByName(GET_MEMBER_NAME_CHECKED(UEnvironmentInteractionComponent, bIsInteracting));
     TestTrue(TEXT("bIsInteracting should replicate"), InteractingProp && InteractingProp->HasAnyPropertyFlags(CPF_Net));
