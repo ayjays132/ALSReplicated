@@ -1,0 +1,32 @@
+name: Unreal Automation Tests
+
+on:
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  automation-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/epicgames/unreal-engine:5.2
+      credentials:
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_PASSWORD }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            /UnrealEngine/Engine/Binaries
+            /UnrealEngine/Engine/DerivedDataCache
+            /UnrealEngine/Engine/Intermediate
+          key: ${{ runner.os }}-ue-build-${{ hashFiles('**/*.uplugin', '**/*.cpp', '**/*.h') }}
+          restore-keys: |
+            ${{ runner.os }}-ue-build-
+
+      - name: Run automation tests
+        run: |
+          /UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh -run=AutomationTests
