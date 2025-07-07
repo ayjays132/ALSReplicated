@@ -9,7 +9,13 @@ void UVisualImpactSystem::SpawnDirectionalNiagaraFX(UObject* WorldContextObject,
         return;
     }
 
-    UWorld* World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject);
+    UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
+    if (!World)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("SpawnDirectionalNiagaraFX: Invalid world context object"));
+        return;
+    }
+
     UNiagaraFunctionLibrary::SpawnSystemAtLocation(World, FX, Location, Direction.Rotation());
 
     if (CameraShake && Force >= ShakeThreshold)
@@ -28,7 +34,13 @@ void UVisualImpactSystem::SpawnImpactDecal(UObject* WorldContextObject, UMateria
         return;
     }
 
-    UWorld* World = GEngine->GetWorldFromContextObjectChecked(WorldContextObject);
+    UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
+    if (!World)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("SpawnImpactDecal: Invalid world context object"));
+        return;
+    }
+
     UGameplayStatics::SpawnDecalAtLocation(World, Decal, Size, Location, Direction.Rotation(), LifeSpan);
 }
 
