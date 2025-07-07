@@ -34,6 +34,10 @@ public:
     UFUNCTION(BlueprintCallable, Category="Combat")
     void SpawnHitbox();
 
+    /** Performs a dash using the DashMontage */
+    UFUNCTION(BlueprintCallable, Category="Combat")
+    void PerformDash();
+
     /** Add stamina back. Can be used by other systems */
     UFUNCTION(BlueprintCallable, Category="Combat")
     void AddStamina(float Amount);
@@ -62,6 +66,12 @@ protected:
     UFUNCTION(Server, Reliable, WithValidation)
     void ServerUnequipWeapon();
 
+    UFUNCTION(Server, Reliable)
+    void ServerPerformDash();
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastPerformDash();
+
     void DoAttack(bool bHeavy);
     void FinishAttack();
     void ResetCombo();
@@ -85,6 +95,7 @@ protected:
     FTimerHandle ComboTimerHandle;
     FTimerHandle AttackTimerHandle;
     FTimerHandle CooldownTimerHandle;
+    FTimerHandle DashTimerHandle;
 
     UPROPERTY(EditDefaultsOnly, Category="Combat")
     float LightAttackStaminaCost = 20.f;
@@ -111,6 +122,14 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category="Combat")
     UAnimMontage* HeavyAttackMontage;
+
+    /** Montage used when performing a dash */
+    UPROPERTY(EditDefaultsOnly, Category="Combat")
+    UAnimMontage* DashMontage = nullptr;
+
+    /** If true the dash montage will use root motion */
+    UPROPERTY(Replicated, EditDefaultsOnly, Category="Combat")
+    bool bUseDashRootMotion = false;
 
     UPROPERTY()
     AActor* EquippedWeapon = nullptr;
