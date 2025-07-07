@@ -9,6 +9,7 @@
 #include "TraversalSmartRouter.h"
 #include "VisualImpactSystem.h"
 #include "ImpactEventSubsystem.h"
+#include "ALSLog.h"
 
 UEnvironmentInteractionComponent::UEnvironmentInteractionComponent()
 {
@@ -236,12 +237,12 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, EIntera
 
     if (!Target->GetIsReplicated())
     {
-        UE_LOG(LogTemp, Warning, TEXT("Interactive actor %s is not set to replicate."), *Target->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("Interactive actor %s is not set to replicate."), *Target->GetName());
     }
 
     if (!Target->GetReplicateMovement())
     {
-        UE_LOG(LogTemp, Warning, TEXT("Interactive actor %s missing bReplicateMovement."), *Target->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("Interactive actor %s missing bReplicateMovement."), *Target->GetName());
     }
 
     UPrimitiveComponent* RootPrim = Cast<UPrimitiveComponent>(Target->GetRootComponent());

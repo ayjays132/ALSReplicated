@@ -1,6 +1,7 @@
 #include "VisualImpactSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
+#include "ALSLog.h"
 
 void UVisualImpactSystem::SpawnDirectionalNiagaraFX(UObject* WorldContextObject, UNiagaraSystem* FX, const FVector& Location, const FVector& Direction, float Force, TSubclassOf<UCameraShakeBase> CameraShake, float ShakeThreshold)
 {
@@ -12,7 +13,7 @@ void UVisualImpactSystem::SpawnDirectionalNiagaraFX(UObject* WorldContextObject,
     UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
     if (!World)
     {
-        UE_LOG(LogTemp, Warning, TEXT("SpawnDirectionalNiagaraFX: Invalid world context object"));
+        UE_LOG(LogALSReplicated, Warning, TEXT("SpawnDirectionalNiagaraFX: Invalid world context object"));
         return;
     }
 
@@ -37,7 +38,7 @@ void UVisualImpactSystem::SpawnImpactDecal(UObject* WorldContextObject, UMateria
     UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
     if (!World)
     {
-        UE_LOG(LogTemp, Warning, TEXT("SpawnImpactDecal: Invalid world context object"));
+        UE_LOG(LogALSReplicated, Warning, TEXT("SpawnImpactDecal: Invalid world context object"));
         return;
     }
 

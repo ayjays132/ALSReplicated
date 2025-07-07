@@ -1,6 +1,7 @@
 #include "AI/Tasks/BTTask_CallBackup.h"
 #include "GameFramework/Actor.h"
 #include "AIController.h"
+#include "ALSLog.h"
 
 UBTTask_CallBackup::UBTTask_CallBackup()
 {
@@ -17,7 +18,7 @@ EBTNodeResult::Type UBTTask_CallBackup::ExecuteTask(UBehaviorTreeComponent& Owne
 
     if (AActor* OwnerActor = Controller->GetPawn())
     {
-        UE_LOG(LogTemp, Warning, TEXT("%s is calling for backup!"), *OwnerActor->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s is calling for backup!"), *OwnerActor->GetName());
     }
 
     return EBTNodeResult::Succeeded;
