@@ -23,6 +23,8 @@ public:
 
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+    virtual void BeginPlay() override;
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AI")
     UAIPerceptionComponent* PerceptionComponent;
@@ -38,6 +40,9 @@ protected:
 
     UFUNCTION()
     void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+    UFUNCTION()
+    void HandleHardImpact(AActor* Instigator, FVector Location);
 
     UPROPERTY(ReplicatedUsing=OnRep_CurrentTarget)
     AActor* CurrentTarget;
