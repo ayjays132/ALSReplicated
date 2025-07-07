@@ -14,6 +14,7 @@ enum class ECharacterActivityState : uint8
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterStateEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterStateChanged, ECharacterActivityState, NewState);
 
 /**
  * Coordinates overall character state and broadcasts events when key changes occur.
@@ -44,6 +45,10 @@ public:
 
     UPROPERTY(BlueprintAssignable)
     FCharacterStateEvent OnTraversalAction;
+
+    /** Broadcasts whenever the character activity state changes */
+    UPROPERTY(BlueprintAssignable)
+    FCharacterStateChanged OnStateChanged;
 
 protected:
     virtual void BeginPlay() override;

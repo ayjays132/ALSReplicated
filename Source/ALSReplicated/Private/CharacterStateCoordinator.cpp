@@ -38,6 +38,7 @@ void UCharacterStateCoordinator::SetCharacterState(ECharacterActivityState NewSt
     if (CurrentState != NewState)
     {
         CurrentState = NewState;
+        OnStateChanged.Broadcast(CurrentState);
         OnRep_State();
     }
 }
@@ -52,6 +53,11 @@ void UCharacterStateCoordinator::OnRep_State()
     if (CurrentState == ECharacterActivityState::Combat)
     {
         OnCombatEngaged.Broadcast();
+    }
+
+    if (GetOwnerRole() != ROLE_Authority)
+    {
+        OnStateChanged.Broadcast(CurrentState);
     }
 }
 
