@@ -31,6 +31,7 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(UCombatComponent, bIsAttacking);
     DOREPLIFETIME(UCombatComponent, ComboIndex);
     DOREPLIFETIME(UCombatComponent, AttackCooldown);
+    DOREPLIFETIME(UCombatComponent, bUseDashRootMotion);
 }
 
 void UCombatComponent::LightAttack()
@@ -55,6 +56,10 @@ void UCombatComponent::HeavyAttack()
     if (!StaminaComponent || StaminaComponent->Stamina < HeavyAttackStaminaCost)
     {
         return;
+    }
+    if (CachedMovement && CachedMovement->Velocity.SizeSquared() > 0.f)
+    {
+        PerformDash();
     }
     ServerStartAttack(true);
 }
@@ -220,5 +225,60 @@ void UCombatComponent::SetMaxStamina(float NewMax)
     {
         StaminaComponent->SetMaxStamina(NewMax);
     }
+}
+
+void UCombatComponent::PerformDash()
+{
+    if (!bUseDashRootMotion || !DashMontage || !CachedMovement)
+    {
+        return;
+    }
+
+    if (GetOwnerRole() < ROLE_Authority)
+    {
+        ServerPerformDash();
+        return;
+    }
+
+    MulticastPerformDash();
+}
+
+void UCombatComponent::ServerPerformDash_Implementation()
+{
+    PerformDash();
+}
+
+void UCombatComponent::MulticastPerformDash_Implementation()
+{
+    ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
+    if (!OwnerCharacter || !DashMontage || !CachedMovement)
+    {
+        return;
+    }
+
+    UAnimInstance* AnimInst = OwnerCharacter->GetMesh() ? OwnerCharacter->GetMesh()->GetAnimInstance() : nullptr;
+    if (!AnimInst)
+    {
+        return;
+    }
+
+    const EMovementMode PrevMode = CachedMovement->MovementMode;
+    const ERootMotionMode::Type PrevRoot = AnimInst->GetRootMotionMode();
+
+    AnimInst->SetRootMotionMode(ERootMotionMode::RootMotionFromMontagesOnly);
+    const float Duration = OwnerCharacter->PlayAnimMontage(DashMontage);
+    CachedMovement->SetMovementMode(MOVE_Flying);
+
+    GetWorld()->GetTimerManager().SetTimer(DashTimerHandle, [this, AnimInst, PrevRoot, PrevMode]()
+    {
+        if (AnimInst)
+        {
+            AnimInst->SetRootMotionMode(PrevRoot);
+        }
+        if (CachedMovement)
+        {
+            CachedMovement->SetMovementMode(PrevMode);
+        }
+    }, Duration, false);
 }
 
