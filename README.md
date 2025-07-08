@@ -140,3 +140,23 @@ Quests are read from DataTable or JSON assets located under `Content/Quests`. Ea
 2. Add `UMissionManagerComponent` (or `BP_MissionManagerComponent`) to your player character.
 3. Call `AdvanceMission` from Blueprint or code to update progress. Mission progress replicates automatically for all clients.
 
+
+## Localization
+
+Strings for UI and audio are maintained in CSV files under `Content/Localization`.
+An example file `Audio/AdaptiveMusic.csv` is included:
+
+```
+Key,SourceString
+CombatCueDesc,Intense Combat Music
+ExplorationCueDesc,Calm Exploration Music
+```
+
+Run the localization commandlet to generate the manifest and archives:
+
+```
+UE4Editor-Cmd.exe <YourProject>.uproject -run=GatherText -config=Config/Localization.ini
+```
+
+After translating the CSVs run the commandlet again to compile `.locres` files.
+Localized text will then be available through the standard `FText` system.
