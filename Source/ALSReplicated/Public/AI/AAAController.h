@@ -24,6 +24,9 @@ public:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+    virtual void OnUnPossess() override;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="AI")
