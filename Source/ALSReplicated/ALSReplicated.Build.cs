@@ -13,7 +13,8 @@ public class ALSReplicated : ModuleRules
                                 System.IO.Path.Combine(ModuleDirectory, "Public"),
                                 System.IO.Path.Combine(ModuleDirectory, "Public/Camera"),
                                 System.IO.Path.Combine(ModuleDirectory, "Public/Environment"),
-                                System.IO.Path.Combine(ModuleDirectory, "Public/UI")
+                                System.IO.Path.Combine(ModuleDirectory, "Public/UI"),
+                                System.IO.Path.Combine(ModuleDirectory, "Public/Analytics")
                         }
                         );
 				
@@ -23,7 +24,8 @@ public class ALSReplicated : ModuleRules
                                 System.IO.Path.Combine(ModuleDirectory, "Private"),
                                 System.IO.Path.Combine(ModuleDirectory, "Private/Camera"),
                                 System.IO.Path.Combine(ModuleDirectory, "Private/Environment"),
-                                System.IO.Path.Combine(ModuleDirectory, "Private/UI")
+                                System.IO.Path.Combine(ModuleDirectory, "Private/UI"),
+                                System.IO.Path.Combine(ModuleDirectory, "Private/Analytics")
                         }
                         );
 			
@@ -64,6 +66,15 @@ public class ALSReplicated : ModuleRules
                                // ... add private dependencies that you statically link with here ...
                         }
                         );
+
+                if (Target.Type == TargetType.Server)
+                {
+                        PublicDefinitions.Add("ALS_DEDICATED_SERVER=1");
+                }
+                else
+                {
+                        PublicDefinitions.Add("ALS_DEDICATED_SERVER=0");
+                }
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(
