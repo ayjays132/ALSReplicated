@@ -88,3 +88,28 @@ void AALSBaseAIController::HandleHardImpact(AActor* Instigator, FVector Location
     }
 }
 
+void AALSBaseAIController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    if (UWorld* World = GetWorld())
+    {
+        if (UImpactEventSubsystem* Subsystem = World->GetSubsystem<UImpactEventSubsystem>())
+        {
+            Subsystem->OnHardImpact.RemoveDynamic(this, &AALSBaseAIController::HandleHardImpact);
+        }
+    }
+    Super::EndPlay(EndPlayReason);
+}
+
+void AALSBaseAIController::OnUnPossess()
+{
+    if (UWorld* World = GetWorld())
+    {
+        if (UImpactEventSubsystem* Subsystem = World->GetSubsystem<UImpactEventSubsystem>())
+        {
+            Subsystem->OnHardImpact.RemoveDynamic(this, &AALSBaseAIController::HandleHardImpact);
+        }
+    }
+
+    Super::OnUnPossess();
+}
+
