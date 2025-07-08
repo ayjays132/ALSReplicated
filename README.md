@@ -109,6 +109,17 @@ A description of what actually happens.
 
 These events make it easy for Blueprints to react to state changes or trigger UI updates without coupling systems together.
 
+## Stance Manager Component
+
+`UStanceManagerComponent` controls the player's stance and replicates the current value across the network. Three stances are built in:
+
+* **Stealth** – slower movement speed but increased maximum stamina.
+* **Normal** – default speed and stamina values.
+* **Aggressive** – highest speed with reduced stamina.
+
+Calling `SetStance()` will update the character's max walk speed and maximum stamina accordingly. The component exposes an `OnStanceChanged` event which fires whenever the stance changes, allowing Blueprints to react &ndash; for example updating the HUD or playing effects.
+
+Related automation test: `ALSReplicated.ComponentReplication.StanceManager.CurrentStance` ensures the stance value replicates correctly.
 
 ## Automation Tests
 
