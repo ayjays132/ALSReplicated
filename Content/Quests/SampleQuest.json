@@ -1,0 +1,5 @@
+{
+  "MissionId": "FindKey",
+  "Description": "Locate the key hidden in the level.",
+  "StageCount": 3
+}

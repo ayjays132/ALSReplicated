@@ -124,3 +124,11 @@ Interactive objects that you intend to push, pull or otherwise move should repli
 
 Actors involved in interactions should also enable **bReplicates** and **bReplicateMovement** in their constructors or blueprint defaults. `UEnvironmentInteractionComponent` no longer forces these flags at runtime and will only log a warning if they are missing.
 
+## Quest Setup
+
+Quests are read from DataTable or JSON assets located under `Content/Quests`. Each entry must match the `FMissionData` structure found in `UMissionManagerComponent`.
+
+1. Create a JSON file in `Content/Quests` or add rows to a DataTable using the `FMissionData` row type.
+2. Add `UMissionManagerComponent` (or `BP_MissionManagerComponent`) to your player character.
+3. Call `AdvanceMission` from Blueprint or code to update progress. Mission progress replicates automatically for all clients.
+
