@@ -63,9 +63,10 @@ public class ALSReplicated : ModuleRules
                                "CableComponent",
                                "Json",
                                "JsonUtilities",
+                               "AudioMixer",
                                // ... add private dependencies that you statically link with here ...
-                        }
-                        );
+                       }
+                       );
 
                 if (Target.Type == TargetType.Server)
                 {
