@@ -5,7 +5,7 @@
 
 UBTTask_FindCover::UBTTask_FindCover()
 {
-    NodeName = TEXT("Find Cover");
+    NodeName = LOCTEXT("BTTask_FindCover_Name", "Find Cover");
     SearchRadius = 1000.f;
 }
 

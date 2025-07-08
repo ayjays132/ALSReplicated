@@ -5,7 +5,7 @@
 
 UBTTask_FindFlank::UBTTask_FindFlank()
 {
-    NodeName = TEXT("Find Flank Position");
+    NodeName = LOCTEXT("BTTask_FindFlank_Name", "Find Flank Position");
     Distance = 400.f;
 }
 
