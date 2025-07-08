@@ -35,6 +35,8 @@ public class ALSReplicated : ModuleRules
                                "GameplayTasks",
                                "GameplayTags",
                                "CableComponent",
+                               "Json",
+                               "JsonUtilities",
                                // ... add other public dependencies that you statically link with here ...
                        }
                        );
@@ -54,8 +56,10 @@ public class ALSReplicated : ModuleRules
                                 "GameplayTags",
                                 "NavigationSystem",
                                 "Niagara",
-                                "CableComponent",
-                                // ... add private dependencies that you statically link with here ...
+                               "CableComponent",
+                               "Json",
+                               "JsonUtilities",
+                               // ... add private dependencies that you statically link with here ...
                         }
                         );
 		
