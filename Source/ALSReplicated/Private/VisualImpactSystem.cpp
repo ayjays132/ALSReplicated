@@ -13,7 +13,7 @@ void UVisualImpactSystem::SpawnDirectionalNiagaraFX(UObject* WorldContextObject,
     UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
     if (!World)
     {
-        UE_LOG(LogALSReplicated, Warning, TEXT("SpawnDirectionalNiagaraFX: Invalid world context object"));
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s"), *LOCTEXT("SpawnDirectionalNiagaraFX_InvalidWorld", "SpawnDirectionalNiagaraFX: Invalid world context object").ToString());
         return;
     }
 
@@ -38,7 +38,7 @@ void UVisualImpactSystem::SpawnImpactDecal(UObject* WorldContextObject, UMateria
     UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject);
     if (!World)
     {
-        UE_LOG(LogALSReplicated, Warning, TEXT("SpawnImpactDecal: Invalid world context object"));
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s"), *LOCTEXT("SpawnImpactDecal_InvalidWorld", "SpawnImpactDecal: Invalid world context object").ToString());
         return;
     }
 

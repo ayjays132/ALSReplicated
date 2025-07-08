@@ -5,7 +5,7 @@
 
 UBTTask_CallBackup::UBTTask_CallBackup()
 {
-    NodeName = TEXT("Call Backup");
+    NodeName = LOCTEXT("BTTask_CallBackup_Name", "Call Backup");
 }
 
 EBTNodeResult::Type UBTTask_CallBackup::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

@@ -5,7 +5,7 @@
 
 UBTTask_CirclePlayer::UBTTask_CirclePlayer()
 {
-    NodeName = TEXT("Circle Player");
+    NodeName = LOCTEXT("BTTask_CirclePlayer_Name", "Circle Player");
     Radius = 600.f;
 }
 

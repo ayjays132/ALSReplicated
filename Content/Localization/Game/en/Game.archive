@@ -1,0 +1,16 @@
+{
+    "FormatVersion": 1,
+    "Entries": [
+        { "Namespace": "", "Key": "BTTask_FindCover_Name", "Source": "Find Cover", "Translation": "Find Cover" },
+        { "Namespace": "", "Key": "BTTask_CallBackup_Name", "Source": "Call Backup", "Translation": "Call Backup" },
+        { "Namespace": "", "Key": "BTTask_FindFlank_Name", "Source": "Find Flank Position", "Translation": "Find Flank Position" },
+        { "Namespace": "", "Key": "BTTask_PerformAttack_Name", "Source": "Perform Attack", "Translation": "Perform Attack" },
+        { "Namespace": "", "Key": "BTTask_GetPatrolPoint_Name", "Source": "Get Patrol Point", "Translation": "Get Patrol Point" },
+        { "Namespace": "", "Key": "BTTask_SetEmotion_Name", "Source": "Set Emotion", "Translation": "Set Emotion" },
+        { "Namespace": "", "Key": "BTTask_CirclePlayer_Name", "Source": "Circle Player", "Translation": "Circle Player" },
+        { "Namespace": "", "Key": "InteractiveActorNotReplicated", "Source": "Interactive actor {0} is not set to replicate.", "Translation": "Interactive actor {0} is not set to replicate." },
+        { "Namespace": "", "Key": "InteractiveActorMissingReplicateMovement", "Source": "Interactive actor {0} missing bReplicateMovement.", "Translation": "Interactive actor {0} missing bReplicateMovement." },
+        { "Namespace": "", "Key": "SpawnDirectionalNiagaraFX_InvalidWorld", "Source": "SpawnDirectionalNiagaraFX: Invalid world context object", "Translation": "SpawnDirectionalNiagaraFX: Invalid world context object" },
+        { "Namespace": "", "Key": "SpawnImpactDecal_InvalidWorld", "Source": "SpawnImpactDecal: Invalid world context object", "Translation": "SpawnImpactDecal: Invalid world context object" }
+    ]
+}

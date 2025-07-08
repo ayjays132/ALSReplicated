@@ -4,7 +4,7 @@
 
 UBTTask_SetEmotion::UBTTask_SetEmotion()
 {
-    NodeName = TEXT("Set Emotion");
+    NodeName = LOCTEXT("BTTask_SetEmotion_Name", "Set Emotion");
     NewEmotion = EEmotionState::Calm;
 }
 

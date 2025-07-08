@@ -6,7 +6,7 @@
 
 UBTTask_PerformAttack::UBTTask_PerformAttack()
 {
-    NodeName = TEXT("Perform Attack");
+    NodeName = LOCTEXT("BTTask_PerformAttack_Name", "Perform Attack");
 }
 
 EBTNodeResult::Type UBTTask_PerformAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

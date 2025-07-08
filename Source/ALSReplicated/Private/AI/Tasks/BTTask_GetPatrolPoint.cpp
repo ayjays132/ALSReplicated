@@ -5,7 +5,7 @@
 
 UBTTask_GetPatrolPoint::UBTTask_GetPatrolPoint()
 {
-    NodeName = TEXT("Get Patrol Point");
+    NodeName = LOCTEXT("BTTask_GetPatrolPoint_Name", "Get Patrol Point");
     SearchRadius = 800.f;
 }
 

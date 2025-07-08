@@ -237,12 +237,16 @@ void UEnvironmentInteractionComponent::HandleInteraction(AActor* Target, EIntera
 
     if (!Target->GetIsReplicated())
     {
-        UE_LOG(LogALSReplicated, Warning, TEXT("Interactive actor %s is not set to replicate."), *Target->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s"), *FText::Format(
+            LOCTEXT("InteractiveActorNotReplicated", "Interactive actor {0} is not set to replicate."),
+            FText::FromString(Target->GetName())).ToString());
     }
 
     if (!Target->GetReplicateMovement())
     {
-        UE_LOG(LogALSReplicated, Warning, TEXT("Interactive actor %s missing bReplicateMovement."), *Target->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s"), *FText::Format(
+            LOCTEXT("InteractiveActorMissingReplicateMovement", "Interactive actor {0} missing bReplicateMovement."),
+            FText::FromString(Target->GetName())).ToString());
     }
 
     UPrimitiveComponent* RootPrim = Cast<UPrimitiveComponent>(Target->GetRootComponent());
