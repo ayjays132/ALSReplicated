@@ -11,7 +11,8 @@ public class ALSReplicated : ModuleRules
                 PublicIncludePaths.AddRange(
                         new string[] {
                                 System.IO.Path.Combine(ModuleDirectory, "Public"),
-                                System.IO.Path.Combine(ModuleDirectory, "Public/Camera")
+                                System.IO.Path.Combine(ModuleDirectory, "Public/Camera"),
+                                System.IO.Path.Combine(ModuleDirectory, "Public/Environment")
                         }
                         );
 				
@@ -19,7 +20,8 @@ public class ALSReplicated : ModuleRules
                 PrivateIncludePaths.AddRange(
                         new string[] {
                                 System.IO.Path.Combine(ModuleDirectory, "Private"),
-                                System.IO.Path.Combine(ModuleDirectory, "Private/Camera")
+                                System.IO.Path.Combine(ModuleDirectory, "Private/Camera"),
+                                System.IO.Path.Combine(ModuleDirectory, "Private/Environment")
                         }
                         );
 			
