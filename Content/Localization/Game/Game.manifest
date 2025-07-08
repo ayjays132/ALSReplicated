@@ -11,6 +11,10 @@
         { "Namespace": "", "Source": "Interactive actor {0} is not set to replicate.", "Key": "InteractiveActorNotReplicated" },
         { "Namespace": "", "Source": "Interactive actor {0} missing bReplicateMovement.", "Key": "InteractiveActorMissingReplicateMovement" },
         { "Namespace": "", "Source": "SpawnDirectionalNiagaraFX: Invalid world context object", "Key": "SpawnDirectionalNiagaraFX_InvalidWorld" },
-        { "Namespace": "", "Source": "SpawnImpactDecal: Invalid world context object", "Key": "SpawnImpactDecal_InvalidWorld" }
+        { "Namespace": "", "Source": "SpawnImpactDecal: Invalid world context object", "Key": "SpawnImpactDecal_InvalidWorld" },
+        { "Namespace": "", "Source": "{0} is calling for backup!", "Key": "AI_CallBackup_Log" },
+        { "Namespace": "", "Source": "Analytics Event: {0} from {1}", "Key": "AnalyticsEventLog" },
+        { "Namespace": "", "Source": "Analytics Session Started for {0}", "Key": "AnalyticsSessionStarted" },
+        { "Namespace": "", "Source": "Analytics Session Ended for {0}", "Key": "AnalyticsSessionEnded" }
     ]
 }

@@ -18,7 +18,9 @@ EBTNodeResult::Type UBTTask_CallBackup::ExecuteTask(UBehaviorTreeComponent& Owne
 
     if (AActor* OwnerActor = Controller->GetPawn())
     {
-        UE_LOG(LogALSReplicated, Warning, TEXT("%s is calling for backup!"), *OwnerActor->GetName());
+        UE_LOG(LogALSReplicated, Warning, TEXT("%s"), *FText::Format(
+            LOCTEXT("AI_CallBackup_Log", "{0} is calling for backup!"),
+            FText::FromString(OwnerActor->GetName())).ToString());
     }
 
     return EBTNodeResult::Succeeded;
