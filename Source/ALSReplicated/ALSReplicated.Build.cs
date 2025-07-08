@@ -12,7 +12,8 @@ public class ALSReplicated : ModuleRules
                         new string[] {
                                 System.IO.Path.Combine(ModuleDirectory, "Public"),
                                 System.IO.Path.Combine(ModuleDirectory, "Public/Camera"),
-                                System.IO.Path.Combine(ModuleDirectory, "Public/Environment")
+                                System.IO.Path.Combine(ModuleDirectory, "Public/Environment"),
+                                System.IO.Path.Combine(ModuleDirectory, "Public/UI")
                         }
                         );
 				
@@ -21,7 +22,8 @@ public class ALSReplicated : ModuleRules
                         new string[] {
                                 System.IO.Path.Combine(ModuleDirectory, "Private"),
                                 System.IO.Path.Combine(ModuleDirectory, "Private/Camera"),
-                                System.IO.Path.Combine(ModuleDirectory, "Private/Environment")
+                                System.IO.Path.Combine(ModuleDirectory, "Private/Environment"),
+                                System.IO.Path.Combine(ModuleDirectory, "Private/UI")
                         }
                         );
 			

@@ -4,6 +4,7 @@
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameUserSettings.h"
+#include "AccessibilitySettings.h"
 
 void UMenuManager::ShowMainMenu()
 {
@@ -13,6 +14,11 @@ void UMenuManager::ShowMainMenu()
 void UMenuManager::ShowOptionsMenu()
 {
     ShowWidget(OptionsMenuClass);
+}
+
+void UMenuManager::ShowAccessibilityMenu()
+{
+    ShowWidget(AccessibilityOptionsClass);
 }
 
 void UMenuManager::ShowKeybindMenu()
@@ -26,6 +32,11 @@ void UMenuManager::SaveSettings()
     {
         Settings->ApplySettings(false);
         Settings->SaveSettings();
+    }
+
+    if (UAccessibilitySettings* AccessSettings = UAccessibilitySettings::Get())
+    {
+        AccessSettings->Save();
     }
 }
 

@@ -20,6 +20,10 @@ public:
     UFUNCTION(BlueprintCallable, Category="Menu")
     void ShowOptionsMenu();
 
+    /** Show the accessibility options menu */
+    UFUNCTION(BlueprintCallable, Category="Menu")
+    void ShowAccessibilityMenu();
+
     /** Show the keybinding menu */
     UFUNCTION(BlueprintCallable, Category="Menu")
     void ShowKeybindMenu();
@@ -39,6 +43,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category="Menu")
     TSubclassOf<UUserWidget> OptionsMenuClass;
+
+    UPROPERTY(EditDefaultsOnly, Category="Menu")
+    TSubclassOf<UUserWidget> AccessibilityOptionsClass;
 
     UPROPERTY(EditDefaultsOnly, Category="Menu")
     TSubclassOf<UUserWidget> KeybindMenuClass;
