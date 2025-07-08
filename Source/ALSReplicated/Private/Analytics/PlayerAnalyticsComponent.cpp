@@ -21,15 +21,22 @@ void UPlayerAnalyticsComponent::EndPlay(const EEndPlayReason::Type EndPlayReason
 
 void UPlayerAnalyticsComponent::LogEvent(const FString& EventName) const
 {
-    UE_LOG(LogALSReplicated, Log, TEXT("Analytics Event: %s from %s"), *EventName, *GetOwner()->GetName());
+    UE_LOG(LogALSReplicated, Log, TEXT("%s"), *FText::Format(
+        LOCTEXT("AnalyticsEventLog", "Analytics Event: {0} from {1}"),
+        FText::FromString(EventName),
+        FText::FromString(GetOwner()->GetName())).ToString());
 }
 
 void UPlayerAnalyticsComponent::LogSessionStarted() const
 {
-    UE_LOG(LogALSReplicated, Log, TEXT("Analytics Session Started for %s"), *GetOwner()->GetName());
+    UE_LOG(LogALSReplicated, Log, TEXT("%s"), *FText::Format(
+        LOCTEXT("AnalyticsSessionStarted", "Analytics Session Started for {0}"),
+        FText::FromString(GetOwner()->GetName())).ToString());
 }
 
 void UPlayerAnalyticsComponent::LogSessionEnded() const
 {
-    UE_LOG(LogALSReplicated, Log, TEXT("Analytics Session Ended for %s"), *GetOwner()->GetName());
+    UE_LOG(LogALSReplicated, Log, TEXT("%s"), *FText::Format(
+        LOCTEXT("AnalyticsSessionEnded", "Analytics Session Ended for {0}"),
+        FText::FromString(GetOwner()->GetName())).ToString());
 }

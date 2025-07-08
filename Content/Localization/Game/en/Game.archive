@@ -11,6 +11,10 @@
         { "Namespace": "", "Key": "InteractiveActorNotReplicated", "Source": "Interactive actor {0} is not set to replicate.", "Translation": "Interactive actor {0} is not set to replicate." },
         { "Namespace": "", "Key": "InteractiveActorMissingReplicateMovement", "Source": "Interactive actor {0} missing bReplicateMovement.", "Translation": "Interactive actor {0} missing bReplicateMovement." },
         { "Namespace": "", "Key": "SpawnDirectionalNiagaraFX_InvalidWorld", "Source": "SpawnDirectionalNiagaraFX: Invalid world context object", "Translation": "SpawnDirectionalNiagaraFX: Invalid world context object" },
-        { "Namespace": "", "Key": "SpawnImpactDecal_InvalidWorld", "Source": "SpawnImpactDecal: Invalid world context object", "Translation": "SpawnImpactDecal: Invalid world context object" }
+        { "Namespace": "", "Key": "SpawnImpactDecal_InvalidWorld", "Source": "SpawnImpactDecal: Invalid world context object", "Translation": "SpawnImpactDecal: Invalid world context object" },
+        { "Namespace": "", "Key": "AI_CallBackup_Log", "Source": "{0} is calling for backup!", "Translation": "{0} is calling for backup!" },
+        { "Namespace": "", "Key": "AnalyticsEventLog", "Source": "Analytics Event: {0} from {1}", "Translation": "Analytics Event: {0} from {1}" },
+        { "Namespace": "", "Key": "AnalyticsSessionStarted", "Source": "Analytics Session Started for {0}", "Translation": "Analytics Session Started for {0}" },
+        { "Namespace": "", "Key": "AnalyticsSessionEnded", "Source": "Analytics Session Ended for {0}", "Translation": "Analytics Session Ended for {0}" }
     ]
 }
