@@ -73,23 +73,23 @@ private:
        UPROPERTY(ReplicatedUsing=OnRep_NewBrakingFrictionFactor)
        float NewBrakingFrictionFactor = BrakingFrictionFactor;
 
-	UFUNCTION(Server, Reliable)
-	void Server_MaxWalkSpeed(float Max_WalkSpeed);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_MaxWalkSpeed(float Max_WalkSpeed);
 
-	UFUNCTION(Server, Reliable)
-        void Server_MaxWalkSpeedCrouched(float Max_WalkSpeedCrouched);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_MaxWalkSpeedCrouched(float Max_WalkSpeedCrouched);
 
-	UFUNCTION(Server, Reliable)
-	void Server_MaxAcceleration(float Max_Acceleration);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_MaxAcceleration(float Max_Acceleration);
 
-	UFUNCTION(Server, Reliable)
-	void Server_BrakingDecelerationWalking(float Braking_DecelerationWalking);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_BrakingDecelerationWalking(float Braking_DecelerationWalking);
 
-	UFUNCTION(Server, Reliable)
-	void Server_GroundFriction(float Ground_Friction);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_GroundFriction(float Ground_Friction);
 
-	UFUNCTION(Server, Reliable)
-        void Server_BrakingFrictionFactor(float Braking_FrictionFactor);
+         UFUNCTION(Server, Reliable, WithValidation)
+         void Server_BrakingFrictionFactor(float Braking_FrictionFactor);
 	
 };
 
