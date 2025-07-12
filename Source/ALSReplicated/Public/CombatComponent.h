@@ -6,6 +6,8 @@
 #include "Net/UnrealNetwork.h"
 #include "ALSCharacterMovementComponent.h"
 
+class UWeaponComponent;
+
 class UStaminaComponent;
 #include "CombatComponent.generated.h"
 
@@ -26,7 +28,7 @@ public:
     void HeavyAttack();
 
     UFUNCTION(BlueprintCallable, Category="Combat")
-    void EquipWeapon(AActor* Weapon, FName SocketName);
+    void EquipWeapon(UWeaponComponent* Weapon, FName SocketName);
 
     UFUNCTION(BlueprintCallable, Category="Combat")
     void UnequipWeapon();
@@ -61,7 +63,7 @@ protected:
     void ServerStartAttack(bool bHeavy);
 
     UFUNCTION(Server, Reliable, WithValidation)
-    void ServerEquipWeapon(AActor* Weapon, FName SocketName);
+    void ServerEquipWeapon(UWeaponComponent* Weapon, FName SocketName);
 
     UFUNCTION(Server, Reliable, WithValidation)
     void ServerUnequipWeapon();
@@ -132,7 +134,7 @@ protected:
     bool bUseDashRootMotion = false;
 
     UPROPERTY()
-    AActor* EquippedWeapon = nullptr;
+    UWeaponComponent* EquippedWeapon = nullptr;
 
     FName EquippedSocket;
 };

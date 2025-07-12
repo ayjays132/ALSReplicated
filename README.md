@@ -119,7 +119,20 @@ These events make it easy for Blueprints to react to state changes or trigger UI
 
 Calling `SetStance()` will update the character's max walk speed and maximum stamina accordingly. The component exposes an `OnStanceChanged` event which fires whenever the stance changes, allowing Blueprints to react &ndash; for example updating the HUD or playing effects.
 
+
 Related automation test: `ALSReplicated.ComponentReplication.StanceManager.CurrentStance` ensures the stance value replicates correctly.
+
+## Weapon and Inventory Components
+
+`UWeaponComponent` defines basic stats such as **Damage**, **Range**, **StaminaCost** and **AttackSpeed**. Add it to any weapon actor and pass the component to `UCombatComponent::EquipWeapon` when equipping.
+
+`UInventoryComponent` stores weapon slots and provides `EquipSlot` to switch between them. When a slot is equipped it forwards the stored `UWeaponComponent` to the owner's `UCombatComponent`.
+
+```cpp
+// Example usage
+InventoryComp->AddWeapon(Sword->FindComponentByClass<UWeaponComponent>());
+InventoryComp->EquipSlot(0, TEXT("WeaponSocket"));
+```
 
 ## Automation Tests
 
