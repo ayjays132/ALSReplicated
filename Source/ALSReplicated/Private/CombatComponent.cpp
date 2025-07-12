@@ -2,6 +2,7 @@
 #include "GameFramework/Character.h"
 #include "ALSCharacterMovementComponent.h"
 #include "StaminaComponent.h"
+#include "WeaponComponent.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -134,7 +135,7 @@ void UCombatComponent::OnRep_AttackState()
 }
 
 
-void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
+void UCombatComponent::EquipWeapon(UWeaponComponent* Weapon, FName SocketName)
 {
     if (!Weapon)
     {
@@ -149,7 +150,10 @@ void UCombatComponent::EquipWeapon(AActor* Weapon, FName SocketName)
 
     if (ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner()))
     {
-        Weapon->AttachToComponent(OwnerCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SocketName);
+        if (AActor* WeaponActor = Weapon->GetOwner())
+        {
+            WeaponActor->AttachToComponent(OwnerCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SocketName);
+        }
         EquippedWeapon = Weapon;
         EquippedSocket = SocketName;
     }
@@ -165,17 +169,20 @@ void UCombatComponent::UnequipWeapon()
 
     if (EquippedWeapon)
     {
-        EquippedWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+        if (AActor* WeaponActor = EquippedWeapon->GetOwner())
+        {
+            WeaponActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+        }
         EquippedWeapon = nullptr;
     }
 }
 
-void UCombatComponent::ServerEquipWeapon_Implementation(AActor* Weapon, FName SocketName)
+void UCombatComponent::ServerEquipWeapon_Implementation(UWeaponComponent* Weapon, FName SocketName)
 {
     EquipWeapon(Weapon, SocketName);
 }
 
-bool UCombatComponent::ServerEquipWeapon_Validate(AActor* Weapon, FName SocketName)
+bool UCombatComponent::ServerEquipWeapon_Validate(UWeaponComponent* Weapon, FName SocketName)
 {
     return GetOwner() && GetOwner()->HasAuthority() && Weapon != nullptr;
 }
