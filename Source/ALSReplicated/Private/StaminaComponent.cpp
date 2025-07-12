@@ -25,6 +25,7 @@ void UStaminaComponent::AddStamina(float Amount)
     const bool bBefore = Stamina <= 0.f;
     Stamina = FMath::Clamp(Stamina + Amount, 0.f, MaxStamina);
     OnRep_Stamina();
+    OnStaminaChanged.Broadcast(Stamina);
     if (bBefore && Stamina > 0.f)
     {
         OnStaminaRecovered.Broadcast();
@@ -53,12 +54,14 @@ void UStaminaComponent::OnRep_Stamina()
     {
         OnStaminaRecovered.Broadcast();
     }
+    OnStaminaChanged.Broadcast(Stamina);
     bWasExhausted = bExhausted;
 }
 
 void UStaminaComponent::OnRep_MaxStamina()
 {
     Stamina = FMath::Clamp(Stamina, 0.f, MaxStamina);
+    OnStaminaChanged.Broadcast(Stamina);
 }
 
 
