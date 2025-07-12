@@ -184,3 +184,15 @@ UE4Editor-Cmd.exe <YourProject>.uproject -run=GatherText -config=Config/Localiza
 
 After translating the CSVs run the commandlet again to compile `.locres` files.
 Localized text will then be available through the standard `FText` system.
+
+## Save System
+
+`USaveGameComponent` serializes player stamina, mission progress, and environment state. Attach it to the player character and call its functions to persist data.
+
+```cpp
+USaveGameComponent* SaveComp = Character->FindComponentByClass<USaveGameComponent>();
+SaveComp->SaveGame();
+SaveComp->LoadGame();
+```
+
+The component creates a `UPlayerSaveGame` object and uses `UGameplayStatics::SaveGameToSlot` and `LoadGameFromSlot` under the hood. Mission completions broadcast by `UMissionManagerComponent` and traversal actions from `UCharacterStateCoordinator` automatically trigger an autosave.
