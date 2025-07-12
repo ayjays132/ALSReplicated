@@ -64,6 +64,8 @@ public class ALSReplicated : ModuleRules
                                "Json",
                                "JsonUtilities",
                                "AudioMixer",
+                               "MovieScene",
+                               "LevelSequence",
                                // ... add private dependencies that you statically link with here ...
                        }
                        );
