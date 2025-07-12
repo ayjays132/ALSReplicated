@@ -41,6 +41,7 @@ public class ALSReplicated : ModuleRules
                                "CableComponent",
                                "Json",
                                "JsonUtilities",
+                               "ControlRig",
                                // ... add other public dependencies that you statically link with here ...
                        }
                        );
@@ -64,6 +65,7 @@ public class ALSReplicated : ModuleRules
                                "Json",
                                "JsonUtilities",
                                "AudioMixer",
+                               "ControlRig",
                                "MovieScene",
                                "LevelSequence",
                                // ... add private dependencies that you statically link with here ...

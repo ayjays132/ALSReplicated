@@ -134,6 +134,18 @@ InventoryComp->AddWeapon(Sword->FindComponentByClass<UWeaponComponent>());
 InventoryComp->EquipSlot(0, TEXT("WeaponSocket"));
 ```
 
+## Facial Animation Component
+
+`UFacialAnimationComponent` uses a Control Rig to drive MetaHuman
+facial curves. Call `PlayEmotion` with an `EEmotionState`, optional
+voice audio and subtitle text to start an animation. Mouth movement
+will automatically sync to the provided audio or text. The component
+exposes `OnFacialAnimationStarted` and `OnFacialAnimationStopped`
+events so Blueprints can react to facial cues.
+
+An example character blueprint `BP_ExampleCharacter` includes this
+component and can be found under `Content/Examples`.
+
 ## Automation Tests
 
 A set of automation tests validates component replication and event behavior. Open **Session Frontend** in the Unreal Editor and run the tests under `ALSReplicated.ComponentReplication`, `ALSReplicated.StaminaReplication`, `ALSReplicated.LockOn.TargetReplication`, `ALSReplicated.EnvironmentInteractionReplication`, `ALSReplicated.Stamina.Events`, `ALSReplicated.CharacterStateCoordinator.Events` and `ALSReplicated.EmotionState.Transitions`. Alternatively, run them from the command line:
