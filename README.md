@@ -208,3 +208,13 @@ SaveComp->LoadGame();
 ```
 
 The component creates a `UPlayerSaveGame` object and uses `UGameplayStatics::SaveGameToSlot` and `LoadGameFromSlot` under the hood. Mission completions broadcast by `UMissionManagerComponent` and traversal actions from `UCharacterStateCoordinator` automatically trigger an autosave.
+
+## HUD Widget
+
+`UHUDWidget` implements the `HUDUpdateInterface` so game systems can update player UI from Blueprints or code. The widget exposes events for:
+
+* **Health** and **Stamina** &ndash; call `UpdateHealth` and `UpdateStamina` whenever values change.
+* **Lock-on Target** &ndash; `UpdateLockOnTarget` receives the pawn currently locked-on or `None` when released.
+* **Quest Progress** &ndash; `UpdateQuest` uses the `FMissionProgress` struct from `UMissionManagerComponent`.
+
+On initialization the widget applies accessibility settings like HUD scale, subtitle size and color blind preset via `OnAccessibilitySettingsChanged` so new elements match the user's preferences.

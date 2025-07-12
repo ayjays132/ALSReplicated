@@ -6,6 +6,7 @@
 #include "StaminaComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStaminaEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStaminaChanged, float, NewStamina);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ALSREPLICATED_API UStaminaComponent : public UActorComponent
@@ -39,6 +40,10 @@ public:
     /** Fired when stamina is recovered from zero */
     UPROPERTY(BlueprintAssignable)
     FStaminaEvent OnStaminaRecovered;
+
+    /** Fired whenever the stamina value changes */
+    UPROPERTY(BlueprintAssignable)
+    FStaminaChanged OnStaminaChanged;
 
 protected:
     virtual void BeginPlay() override;
